@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Container, Form, Button } from './style';
+import { Container, Form, ButtonLogin, ButtonSignUp } from './style';
 
 function SignIn() {
   return (
@@ -13,11 +13,14 @@ function SignIn() {
       </div>
 
       <Form>
-        <div>
+        <div className="content">
           <h1>CompreGames.com</h1>
           <input type="email" placeholder="Informe o email" />
           <input type="password" placeholder="Digite a senha" />
-          <Button>Entrar</Button>
+          <div className="buttons">
+            <ButtonLogin>Login</ButtonLogin>
+            <ButtonSignUp>Sing Up</ButtonSignUp>
+          </div>
         </div>
       </Form>
     </Container>
