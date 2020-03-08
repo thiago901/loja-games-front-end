@@ -1,8 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { Container, Form, ButtonLogin, ButtonSignUp } from './style';
+import { Container, Form, ButtonCreate, ButtonSignin } from './style';
 
-function SignIn() {
+function SignUp() {
   return (
     <Container>
       <div className="img-left">
@@ -15,13 +14,19 @@ function SignIn() {
       <Form>
         <div className="content">
           <h1>CompreGames.com</h1>
+          <div className="name-surname">
+            <input type="text" placeholder="Informe o seu nome" />
+            <input type="text" placeholder="Informe o seu sobrenome" />
+          </div>
           <input type="email" placeholder="Informe o email" />
           <input type="password" placeholder="Digite a senha" />
+          <input type="password" placeholder="Confirme a senha" />
           <div className="buttons">
-            <ButtonLogin>Login</ButtonLogin>
-            <Link to="/signUp">
-              <ButtonSignUp>Sign Up</ButtonSignUp>
-            </Link>
+            <ButtonCreate>Create</ButtonCreate>
+            <p>
+              Already registered?{' '}
+              <ButtonSignin to="/signin">Sign In</ButtonSignin>
+            </p>
           </div>
         </div>
       </Form>
@@ -29,4 +34,4 @@ function SignIn() {
   );
 }
 
-export default SignIn;
+export default SignUp;
