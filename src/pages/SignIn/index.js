@@ -1,6 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+
 import { Container, Form, ButtonLogin, ButtonSignUp } from './style';
+import AnimationCube from '../../components/AnimationCube';
 
 function SignIn() {
   return (
@@ -19,11 +20,10 @@ function SignIn() {
           <input type="password" placeholder="Digite a senha" />
           <div className="buttons">
             <ButtonLogin>Login</ButtonLogin>
-            <Link to="/signUp">
-              <ButtonSignUp>Sign Up</ButtonSignUp>
-            </Link>
+            <ButtonSignUp to="/signUp">Sign Up</ButtonSignUp>
           </div>
         </div>
+        <AnimationCube />
       </Form>
     </Container>
   );

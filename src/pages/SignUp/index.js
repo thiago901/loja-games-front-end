@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container, Form, ButtonCreate, ButtonSignin } from './style';
+import AnimationCube from '../../components/AnimationCube';
 
 function SignUp() {
   return (
@@ -29,6 +30,7 @@ function SignUp() {
             </p>
           </div>
         </div>
+        <AnimationCube />
       </Form>
     </Container>
   );
