@@ -43,17 +43,55 @@ export const Header = styled.header`
       }
     }
   }
-  div{
-    input{
+
+
+
+
+
+`;
+
+export const InputSearch = styled.div`
+  display:flex;
+  width:250px;
+  height: 30px;
+  background:#fff;
+  border-radius:4px;
+
+
+  input {
+      width: 100%;
       border:0;
-      height:26px;
-      width:26px;
-
-      &:hover{
-        width:100%;
-
-      }
+      border-radius:4px;
     }
+  svg{
+    background:#eee;
+    width:26px;
+    height:100%;
+    border-radius:4px;
   }
+
+`;
+
+export const Banner = styled.div`
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:400px;
+  background:#de4e3a;
+
+`;
+
+export const Poster = styled.div`
+    text-align:center;
+    width: 400px;
+    height: 400px;
+    overflow:hidden;
+    background:#fff;
+    border-radius:50%;
+    padding:10px;
+
+    img{
+      width: auto;
+    }
 
 `;
