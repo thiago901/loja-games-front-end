@@ -1,12 +1,14 @@
 import React from 'react';
 import {MdShoppingBasket,MdSearch} from 'react-icons/md';
-import {Header,InputSearch,Banner,Poster} from './style';
+import {Container,Header,InputSearch,Banner,Poster,ProductList} from './style';
 
 export default function Main(){
   return (
     <>
+    <Container>
       <Header>
         <h1>CompreGames.com</h1>
+
         <ul>
           <li>Games</li>
           <li>Consoles</li>
@@ -16,9 +18,12 @@ export default function Main(){
 
         <InputSearch>
           <input type='text'/>
-          <MdSearch color="#22272a" size={26}/>
+          <MdSearch color="#fff" size={26}/>
         </InputSearch>
-        <MdShoppingBasket color="#fff" size={26}/>
+        <div className="shopping-basket">
+          <MdShoppingBasket color="#fff" size={36}/> 13
+        </div>
+
       </Header>
       <Banner>
         <div>
@@ -32,6 +37,82 @@ export default function Main(){
         <div>
         </div>
       </Banner>
+      <ProductList>
+        <li>
+          <img
+            src="https://images-submarino.b2w.io/produtos/01/00/oferta/134163/8/134163876_1GG.jpg"
+            alt="Mk"
+          />
+          <p>Game Mortal Kombat 11 Br - PS4</p>
+          <span>R$ 80,00</span>
+          <button>Comprar</button>
+        </li>
+        <li>
+          <img
+            src="https://images-submarino.b2w.io/produtos/01/00/oferta/134163/8/134163876_1GG.jpg"
+            alt="Mk"
+          />
+          <p>Game Mortal Kombat 11 Br - PS4</p>
+          <span>R$ 80,00</span>
+          <button>Comprar</button>
+        </li>
+        <li>
+          <img
+            src="https://images-submarino.b2w.io/produtos/01/00/oferta/134163/8/134163876_1GG.jpg"
+            alt="Mk"
+          />
+          <p>Game Mortal Kombat 11 Br - PS4</p>
+          <span>R$ 80,00</span>
+          <button>Comprar</button>
+        </li>
+        <li>
+          <img
+            src="https://images-submarino.b2w.io/produtos/01/00/oferta/134163/8/134163876_1GG.jpg"
+            alt="Mk"
+          />
+          <p>Game Mortal Kombat 11 Br - PS4</p>
+          <span>R$ 80,00</span>
+          <button>Comprar</button>
+        </li>
+        <li>
+          <img
+            src="https://images-submarino.b2w.io/produtos/01/00/oferta/134163/8/134163876_1GG.jpg"
+            alt="Mk"
+          />
+          <p>Game Mortal Kombat 11 Br - PS4</p>
+          <span>R$ 80,00</span>
+          <button>Comprar</button>
+        </li>
+        <li>
+          <img
+            src="https://images-submarino.b2w.io/produtos/01/00/oferta/134163/8/134163876_1GG.jpg"
+            alt="Mk"
+          />
+          <p>Game Mortal Kombat 11 Br - PS4</p>
+          <span>R$ 80,00</span>
+          <button>Comprar</button>
+        </li>
+        <li>
+          <img
+            src="https://images-submarino.b2w.io/produtos/01/00/oferta/134163/8/134163876_1GG.jpg"
+            alt="Mk"
+          />
+          <p>Game Mortal Kombat 11 Br - PS4</p>
+          <span>R$ 80,00</span>
+          <button>Comprar</button>
+        </li>
+        <li>
+          <img
+            src="https://images-submarino.b2w.io/produtos/01/00/oferta/134163/8/134163876_1GG.jpg"
+            alt="Mk"
+          />
+          <p>Game Mortal Kombat 11 Br - PS4</p>
+          <span>R$ 80,00</span>
+          <button>Comprar</button>
+        </li>
+
+      </ProductList>
+    </Container>
       </>
 
 
