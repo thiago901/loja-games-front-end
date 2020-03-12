@@ -17,7 +17,7 @@ export const Container = styled.div`
 `;
 
 export const Header = styled.header`
-@import url('https://fonts.googleapis.com/css?family=Trade+Winds&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Frijole&display=swap');
   display:flex;
   padding:10px;
   background:#de4e3a;
@@ -27,7 +27,7 @@ export const Header = styled.header`
   justify-content:space-between;
   h1{
     color:#fff;
-    font-family: 'Trade Winds', cursive;
+    font-family: 'Frijole', cursive;
   }
 
   ul{
@@ -37,11 +37,16 @@ export const Header = styled.header`
     align-items:center;
     justify-content:space-around;
     list-style:none;
+    margin-left:20px;
+
     li{
       padding:15px 10px;
       color:#fff;
       font-weight:bold;
       font-size:17px;
+      text-align:center;
+      width:100%;
+
       &:hover{
         color:#eee;
         cursor: pointer;
@@ -59,6 +64,8 @@ export const Header = styled.header`
       align-items:center;
       justify-content:space-between;
       width:60px;
+      color:#fff;
+      font-weight:bold;
   }
 
 
@@ -112,6 +119,7 @@ export const Banner = styled.div`
 `;
 
 export const Poster = styled.div`
+    flex-shrink:0;
     text-align:center;
     width: 400px;
     height: 400px;
@@ -119,6 +127,7 @@ export const Poster = styled.div`
     background:#fff;
     border-radius:50%;
     padding:10px;
+
 
     img{
       width: auto;
@@ -134,6 +143,7 @@ export const ProductList = styled.ul`
     display:grid;
     grid-template-columns: repeat(4,1fr);
     grid-gap:20px;
+
 
 
 
@@ -174,5 +184,100 @@ export const ProductList = styled.ul`
 
     }
   }
+
+`;
+export const Characters = styled.div`
+  width:100%;
+  height:100%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  div{
+    width: 100px;
+    height: 100px;
+    overflow:hidden;
+    background:#fff;
+    border-radius:50%;
+    padding:10px;
+    text-align:center;
+    box-shadow: 0px 0px 8px #22272a;
+    img{
+      width: 100%;
+    }
+    &:nth-child(1){
+      transform:translateY(-100px) scale(1.5);
+    }
+    &:hover{
+      cursor: pointer;
+    }
+  }
+
+`;
+
+export const Adverts = styled.div`
+  width:100%;
+  height:100%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+
+
+`;
+
+export const Card = styled.div`
+    width: 200px;
+    height: 100px;
+    overflow:hidden;
+    background:#fff;
+    border-radius:4px;
+    padding:10px;
+    text-align:right;
+    box-shadow: 0px 0px 8px #22272a;
+    display:flex;
+    justify-content:space-between;
+    align-self:center;
+    position:relative;
+    align-items:center;
+
+    div{
+
+
+      p{
+        text-align:left;
+        font-size:13px;
+      }
+      span{
+        text-align:left;
+        display:block;
+        font-size:17px;
+        font-weight:bold;
+      }
+    }
+
+    img{
+      height:100%;
+      position:relative;
+    }
+    &:nth-child(1){
+      justify-self:self-start;
+      transform:translate(-100px,20px);
+    }
+    &:nth-child(2){
+
+      transform:translate(-50px,-100px);
+    }
+    &:hover{
+      cursor: pointer;
+    }
+
+    svg{
+      position:absolute;
+      left:100%;
+      top:100%;
+      transform:translate(-100%, -100%);
+
+    }
 
 `;
