@@ -10,6 +10,9 @@ export const Header = styled.header`
   height: 100px;
   align-items: center;
   justify-content: space-between;
+  a {
+    text-decoration: none;
+  }
   h1 {
     color: #fff;
     font-family: 'Frijole', cursive;
@@ -52,7 +55,7 @@ export const Header = styled.header`
     color: #fff;
     font-weight: bold;
   }
-  @media (max-width: 400px) {
+  @media (max-width: 640px) {
     display: inline-block;
     h1 {
       text-align: center;
@@ -115,10 +118,11 @@ export const InputSearch = styled.div`
     height: 26px;
     border-radius: 50%;
   }
-  @media (max-width: 400px) {
+  @media (max-width: 640px) {
     align-items: center;
     margin-top: 10px;
-    height: 20px;
+    height: 25px;
     padding: 0;
+    width: 100%;
   }
 `;

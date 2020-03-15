@@ -1,11 +1,14 @@
 import React from 'react';
 import { MdShoppingBasket, MdSearch } from 'react-icons/md';
+import { Link } from 'react-router-dom';
 import { Header, InputSearch } from './style';
 
 function AnimationCube() {
   return (
     <Header>
-      <h1>CompreGames.com</h1>
+      <Link to="/">
+        <h1>CompreGames.com</h1>
+      </Link>
       <ul>
         <li>Games</li>
         <li>Consoles</li>
