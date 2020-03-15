@@ -25,7 +25,9 @@ export default createGlobalStyle`
         font-size:14px;
         font-family: 'Roboto', sans-serif;
     }
-
+    html,body{
+      height:100%;
+    }
     button{
         cursor: pointer;
     }

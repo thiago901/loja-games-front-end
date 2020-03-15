@@ -6,6 +6,7 @@ import Main from './pages/Main';
 import MainSystem from './pages/MainSystem';
 import Product from './pages/Product';
 import ProductDetail from './pages/ProductDetail';
+import Cart from './pages/Cart';
 
 export default function Routes() {
   return (
@@ -15,6 +16,7 @@ export default function Routes() {
       <Route path="/signUp" exact component={SignUp} />
 
       <Route path="/product/detail" exact component={ProductDetail} />
+      <Route path="/cart" exact component={Cart} />
       <Route path="/product" exact component={MainSystem} />
       <Route path="/product/create" exact component={Product} />
       <Route path="/product/update" exact component={Product} />
