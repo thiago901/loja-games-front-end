@@ -4,7 +4,7 @@ import {
   MdAddCircleOutline,
   MdDelete,
 } from 'react-icons/md';
-import { bindActionCreators } from 'redux';
+// import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { ProductTable, Total, Container } from './style';
 // import * as actionsCard from '../../store/modules/cart/actions';

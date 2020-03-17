@@ -111,6 +111,10 @@ export const ProductList = styled.ul`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-gap: 20px;
+  a {
+    text-decoration: none;
+    color: #22272a;
+  }
 
   li {
     display: flex;
@@ -145,6 +149,7 @@ export const ProductList = styled.ul`
       font-size: 16px;
       font-weight: bold;
       border-radius: 4px;
+      margin-top: auto;
     }
   }
 

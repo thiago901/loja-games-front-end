@@ -1,9 +1,10 @@
 import React from 'react';
 import { MdShoppingBasket, MdSearch } from 'react-icons/md';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Header, InputSearch } from './style';
 
-function AnimationCube() {
+function AnimationCube({ cartSize }) {
   return (
     <Header>
       <Link to="/">
@@ -20,10 +21,12 @@ function AnimationCube() {
         <MdSearch color="#fff" size={26} />
       </InputSearch>
       <div className="shopping-basket">
-        <MdShoppingBasket color="#fff" size={36} /> 13
+        <MdShoppingBasket color="#fff" size={36} /> {cartSize}
       </div>
     </Header>
   );
 }
 
-export default AnimationCube;
+export default connect(state => ({
+  cartSize: state.cart.length,
+}))(AnimationCube);

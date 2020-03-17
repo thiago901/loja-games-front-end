@@ -15,7 +15,7 @@ export default function Routes() {
       <Route path="/signIn" exact component={SignIn} />
       <Route path="/signUp" exact component={SignUp} />
 
-      <Route path="/product/detail" exact component={ProductDetail} />
+      <Route path="/product/:id/detail" exact component={ProductDetail} />
       <Route path="/cart" exact component={Cart} />
       <Route path="/product" exact component={MainSystem} />
       <Route path="/product/create" exact component={Product} />
