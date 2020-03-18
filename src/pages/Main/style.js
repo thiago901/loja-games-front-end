@@ -131,6 +131,10 @@ export const ProductList = styled.ul`
       margin-top: 10px;
       font-size: 14px;
       align-self: flex-start;
+      max-width: 40ch;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
     span {
       align-self: flex-start;

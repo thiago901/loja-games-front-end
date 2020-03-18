@@ -50,7 +50,7 @@ export default class ProductDetail extends Component {
             <tbody>
               {faq.map(f=>(
                 <tr key={f.id}>
-                  <td>{f.Question}</td>
+                  <td>{f.question}</td>
                   <td>{f.answer}</td>
                 </tr>
               ))}

@@ -1,68 +1,53 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import api from '../../services/api';
 import Menu from '../../components/Menu';
 
 import { Container, TableProduct, Panel } from './style';
 
-export default function MainSystem() {
-  return (
-    <Container>
-      <Menu />
-      <Panel>
-        <input type="text" />
-        <TableProduct>
-          <thead>
-            <tr>
-              <th>Produto</th>
-              <th>Descrição</th>
-              <th>Qtd</th>
-              <th>Valor Unitario</th>
-              <th />
-              <th />
-              <th />
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>God of War</td>
-              <td>Jogo de aventura</td>
-              <td>7</td>
-              <td>R$ 70,60</td>
-              <td>Visualizar</td>
-              <td>Editar</td>
-              <td>Excluir</td>
-            </tr>
-            <tr>
-              <td>God of War</td>
-              <td>Jogo de aventura</td>
-              <td>7</td>
-              <td>R$ 70,60</td>
-              <td>Visualizar</td>
-              <td>Editar</td>
-              <td>Excluir</td>
-            </tr>
-            <tr>
-              <td>God of War</td>
-              <td>Jogo de aventura</td>
-              <td>7</td>
-              <td>R$ 70,60</td>
-              <td>Visualizar</td>
-              <td>Editar</td>
-              <td>Excluir</td>
-            </tr>
-            <tr>
-              <td>God of War</td>
-              <td>Jogo de aventura</td>
-              <td>7</td>
-              <td>R$ 70,60</td>
-              <td>Visualizar</td>
-              <td>Editar</td>
-              <td>Excluir</td>
-            </tr>
-          </tbody>
+class MainSystem extends Component {
+  state = {
+    products:[],
+  };
+
+  async componentDidMount(){
+    const response = await api.get('/products');
+    this.setState({products:response.data})
+  }
+  render() {
+    const {products} =this.state;
+    return (
+      <Container>
+        <Menu />
+        <Panel>
+          <input type="text" />
+          <TableProduct>
+            <thead>
+              <tr>
+                <th>Produto</th>
+                <th>Valor Unitario</th>
+                <th />
+                <th />
+                <th />
+              </tr>
+            </thead>
+            <tbody>
+              {products.map(p=>(
+                <tr>
+                <td>{p.title}</td>
+                <td>{p.price}</td>
+                <td>Visualizar</td>
+                <td>Editar</td>
+                <td>Excluir</td>
+              </tr>
+              ))}
+            </tbody>
+
+          </TableProduct>
           <Link to="/product/create">NOVO</Link>
-        </TableProduct>
-      </Panel>
-    </Container>
-  );
+        </Panel>
+      </Container>
+    );
+  }
 }
+export default MainSystem;

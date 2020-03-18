@@ -21,8 +21,11 @@ class Main extends Component {
     products: [],
   };
   async componentDidMount(){
+
     const response = await api.get('/products');
     this.setState({products:response.data})
+
+
 
   }
 
@@ -35,9 +38,14 @@ class Main extends Component {
     })
 
   }
+  handleUpdatePoster=()=>{
+    return 'https://obj.ibxk.com.br/layout/bj/especiais/the-witcher-3/assets/images/witcher-main-poster.png';
+    // "https://obj.ibxk.com.br/layout/bj/especiais/the-witcher-3/assets/images/witcher-main-poster.png"
+  }
 
   render() {
     const { products } = this.state;
+
 
     return (
       <>
@@ -48,7 +56,7 @@ class Main extends Component {
             <Characters>
               <div>
                 <img
-                  src="https://obj.ibxk.com.br/layout/bj/especiais/the-witcher-3/assets/images/witcher-main-poster.png"
+                  src='https://obj.ibxk.com.br/layout/bj/especiais/the-witcher-3/assets/images/witcher-main-poster.png'
                   alt="Gerald"
                 />
               </div>
@@ -99,18 +107,19 @@ class Main extends Component {
 
           <ProductList>
             {products.map(product=>(
-              <Link key={product.id} to={`/product/${product.id}/detail`}>
-                <li >
 
-                  <img
-                    src={product.image}
-                    alt={product.title}
-                  />
+                <li key={product.id}  >
+                <Link to={`/product/${product.id}/detail`}>
+                    <img
+                      src={product.image}
+                      alt={product.title}
+                    />
+                  </Link>
                   <p>{product.title}</p>
                   <span>{product.price}</span>
-                  <button type="button" onClick={()=>this.handleAddProduct(product)}>Comprar</button>
+                  <button type="button" onClick={()=>this.handleAddProduct(product)}>ADICIONAR AO CARRINHO</button>
                 </li>
-              </Link>
+
             ))}
           </ProductList>
         </Container>

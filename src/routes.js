@@ -19,7 +19,7 @@ export default function Routes() {
       <Route path="/cart" exact component={Cart} />
       <Route path="/product" exact component={MainSystem} />
       <Route path="/product/create" exact component={Product} />
-      <Route path="/product/update" exact component={Product} />
+      <Route path="/product/:id/update" exact component={Product} />
     </Switch>
   );
 }

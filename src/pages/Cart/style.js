@@ -1,5 +1,17 @@
 import styled from 'styled-components';
 import { darken } from 'polished';
+/*
+  #0e0125
+  #260c39
+  #2f167f
+*/
+
+/*
+  #de4e3a
+  #6fa1cd
+  #6c0a12
+  #22272a
+*/
 
 export const Container = styled.div`
   background: #fff;
@@ -14,7 +26,7 @@ export const Container = styled.div`
     button {
       border: none;
       border-radius: 4px;
-      background: #7159c1;
+      background: #de4e3a;
       color: #fff;
       font-weight: bold;
       padding: 12px 20px;
@@ -22,7 +34,7 @@ export const Container = styled.div`
       transition: background 0.2s;
 
       &:hover {
-        background: ${darken(0.03, '#7159c1')};
+        background: ${darken(0.03, '#de4e3a')};
       }
     }
   }

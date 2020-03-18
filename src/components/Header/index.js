@@ -20,9 +20,12 @@ function AnimationCube({ cartSize }) {
         <input type="text" />
         <MdSearch color="#fff" size={26} />
       </InputSearch>
-      <div className="shopping-basket">
-        <MdShoppingBasket color="#fff" size={36} /> {cartSize}
-      </div>
+      <Link to="/cart">
+        <div className="shopping-basket">
+          {cartSize}
+          <MdShoppingBasket color="#fff" size={36} />
+        </div>
+      </Link>
     </Header>
   );
 }
