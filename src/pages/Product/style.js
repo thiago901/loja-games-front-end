@@ -40,19 +40,11 @@ export const Panel = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-around;
+  padding: 20px;
   .content {
-    display: grid;
-    grid-template: repeat(1, 1fr) / repeat(2, 1fr);
-    grid-gap: 10px;
-    height: 90%;
-
-    button {
-      grid-column-start: 2;
-      align-self: start;
-      justify-self: end;
-      width: 250px;
-      height: 30px;
-    }
+    display: flex;
+    justify-content: space-around;
+    height: 100%;
   }
 `;
 export const Form = styled.form`
@@ -61,13 +53,78 @@ export const Form = styled.form`
   padding: 20px;
   background: #fff;
   border-radius: 4px;
-  width: 400px;
+  width: 700px;
+  margin-right: 10px;
 
   input {
     height: 25px;
-    margin-top: 10px;
+    margin-bottom: 10px;
+
+    padding: 15px 10px;
+    border-radius: 4px;
+    border: 1px solid #eee;
   }
-  button {
+  textarea {
+    padding: 5px 10px;
+    height: 100px;
+    border-radius: 4px;
+    border: 1px solid #eee;
+    text-indent: 1.5em;
+    line-height: 1.4;
+    text-align: justify;
+  }
+  .faq {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .btns-add-faq {
+    display: flex;
+    justify-self: flex-end;
+
+    button {
+      align-self: flex-end;
+      margin: 0 0 10px 5px;
+      width: 50px;
+      border-radius: 4px;
+      border: none;
+      border: 1px solid #eee;
+      background: #6fa1cd;
+      color: #fff;
+    }
+  }
+
+  .table {
+    max-width: 100%;
+    max-height: 200px;
+    overflow-y: scroll;
+    margin: 10px 0;
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    td,
+    th {
+      border: 1px solid #eee;
+      padding: 8px;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+
+    tr:hover {
+      background-color: #ddd;
+    }
+
+    th {
+      padding-top: 12px;
+      padding-bottom: 12px;
+      text-align: left;
+      background-color: #22272a;
+      color: #fff;
+    }
   }
 `;
 
@@ -77,7 +134,7 @@ export const FormImagens = styled.form`
   padding: 20px;
   background: #fff;
   border-radius: 4px;
-  width: 400px;
+  width: 300px;
 
   align-items: center;
   div {

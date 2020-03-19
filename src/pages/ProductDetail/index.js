@@ -1,36 +1,61 @@
 import React, { Component } from 'react';
-import { MdNavigateNext, MdNavigateBefore } from 'react-icons/md';
+
+
 import api from '../../services/api'
 import Header from '../../components/Header';
 import { Carrousel, Product, Faq } from './style';
 
 export default class ProductDetail extends Component {
+
+
   state = {
-    product:{}
+    product:{},
+    countImg:0
   };
 
   async componentDidMount(){
     const {id} = this.props.match.params;
     const response = await api.get(`/products/${id}`);
-
     this.setState({product:response.data});
-
   }
+
+
   render() {
+
     const {product} =this.state;
     const {faq=[]}=product;
+    const {images=[]}=product;
+
 
     return (
       <>
         <Header />
         <Product>
           <Carrousel>
-            <MdNavigateBefore size={50} />
-            <img
-              src={product.image}
-              alt={product.title}
-            />
-            <MdNavigateNext size={50} />
+
+            <div className="content">
+
+              {images.map(i=>(
+                <img
+                  key={i.id}
+                  src={i.image}
+                  alt={product.title}
+                  id={i.id}
+                />
+              ))}
+
+            </div>
+            <div className="links">
+              {images.map(i=>(
+                <a
+                  key={i.id}
+                  href={`#${i.id}`}
+
+                >{i.id}</a>
+              ))}
+
+            </div>
+
           </Carrousel>
 
           <div className="data-description">
@@ -63,3 +88,4 @@ export default class ProductDetail extends Component {
     );
   }
 }
+

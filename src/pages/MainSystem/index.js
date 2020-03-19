@@ -36,8 +36,8 @@ class MainSystem extends Component {
                 <tr>
                 <td>{p.title}</td>
                 <td>{p.price}</td>
-                <td>Visualizar</td>
-                <td>Editar</td>
+                <td><a href={`/product/${p.id}/detail`} target="_blank" rel="noopener noreferrer">Visualizar</a></td>
+                <td><a href={`product/${p.id}/update`} >Editar</a></td>
                 <td>Excluir</td>
               </tr>
               ))}

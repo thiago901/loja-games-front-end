@@ -38,7 +38,7 @@ class MainSystem extends Component {
 
 
     if(id){
-      const response= await api.put(`/products/${id}`,{
+      await api.put(`/products/${id}`,{
         title,
         description,
         price,
@@ -141,12 +141,14 @@ class MainSystem extends Component {
                 placeholder="Informe o Descrição de produto"
                 defaultValue={description}
               />
-              <div>
+
+                <div className="table">
                 <table>
                   <thead>
                     <tr>
                       <th>Pergunta</th>
                       <th>Resposta</th>
+                      <th>acao</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -154,31 +156,38 @@ class MainSystem extends Component {
                       <tr key={f.id}>
                         <td>{f.question}</td>
                         <td>{f.answer}</td>
+                        <td>Excluir</td>
                       </tr>
                     ))}
 
                   </tbody>
                 </table>
-                <input
-                  type="text"
-                  placeholder="Pergunta"
-                  onChange={this.handleAddQuestion}
-                  value={question}
-                />
-                <input
-                  type="text"
-                  placeholder="Resposta"
-                  onChange={this.handleAddAnswer}
-                  value={answer}
-                />
-                <button type="button" onClick={this.handleAddFaq}>Add</button>
-              </div>
+                </div>
+
+                <div className="btns-add-faq">
+                  <div className="faq">
+                    <input
+                      type="text"
+                      placeholder="Pergunta"
+                      onChange={this.handleAddQuestion}
+                      value={question}
+                    />
+                    <input
+                      type="text"
+                      placeholder="Resposta"
+                      onChange={this.handleAddAnswer}
+                      value={answer}
+                    />
+                  </div>
+                  <button type="button" onClick={this.handleAddFaq}>Add</button>
+                </div>
+
             </Form>
             <FormImagens >
               <div>
                 <img
                   src={image}
-                  alt="Jogo"
+                  alt={title}
                 />
               </div>
               <div>
@@ -198,12 +207,15 @@ class MainSystem extends Component {
                     </tr>
                   </tbody>
                 </table>
-                {/* <input type="file" multiple onChangeCapture={this.handleAddImg}/> */}
-                <input type="text" onChange={this.handleAddImg}/>
-              </div>
 
+                  {/* <input type="file" multiple onChangeCapture={this.handleAddImg}/> */}
+                  <input type="text" onChange={this.handleAddImg}/>
+
+
+              </div>
+              <button type="button" onClick={this.handleSaveProduct}>Salvar</button>
             </FormImagens>
-            <button type="button" onClick={this.handleSaveProduct}>Salvar</button>
+
           </div>
         </Panel>
       </Container>

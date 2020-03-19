@@ -1,11 +1,54 @@
 import styled from 'styled-components';
+/*
+  #0e0125
+  #260c39
+  #2f167f
+*/
+
+/*
+  #de4e3a
+  #6fa1cd
+  #6c0a12
+  #22272a
+*/
 
 export const Carrousel = styled.div`
   display: flex;
   align-items: center;
-
+  flex-direction: column;
+  margin-right: 10px;
   img {
+    border-radius: 4px;
     width: 250px;
+  }
+
+  .content {
+    display: flex;
+    width: 250px;
+    overflow: hidden;
+    scroll-behavior: smooth;
+  }
+  .links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    a {
+      margin: 5px 0 0 5px;
+      display: inline-block;
+      padding: 5px 10px;
+
+      text-decoration: none;
+      text-align: center;
+      align-items: center;
+      color: #22272a;
+      background: #de4e3a;
+      border-radius: 4px;
+      color: #fff;
+    }
+    a:active {
+      background: #22272a;
+    }
   }
 `;
 

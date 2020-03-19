@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {Link} from 'react-router-dom'
 import { connect } from 'react-redux';
 import { MdAddCircle } from 'react-icons/md';
-
+import {formatPrice} from '../../util/format';
 import api from '../../services/api'
 import Header from '../../components/Header';
 
@@ -23,7 +23,11 @@ class Main extends Component {
   async componentDidMount(){
 
     const response = await api.get('/products');
-    this.setState({products:response.data})
+    const data = response.data.map(product=>({
+      ...product,
+      formatPrice:formatPrice(product.price)
+      }))
+    this.setState({products:data})
 
 
 
@@ -110,13 +114,15 @@ class Main extends Component {
 
                 <li key={product.id}  >
                 <Link to={`/product/${product.id}/detail`}>
+                  <div className="imgs">
                     <img
-                      src={product.image}
+                      src={product.images[0].image}
                       alt={product.title}
                     />
+                  </div>
                   </Link>
                   <p>{product.title}</p>
-                  <span>{product.price}</span>
+                  <span>{product.formatPrice}</span>
                   <button type="button" onClick={()=>this.handleAddProduct(product)}>ADICIONAR AO CARRINHO</button>
                 </li>
 

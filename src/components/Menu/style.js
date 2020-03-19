@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { darken } from 'polished';
 
 export const Menu = styled.div`
   width: 300px;
@@ -6,16 +7,19 @@ export const Menu = styled.div`
   background: #de4e3a;
   ul {
     width: 100%;
-    background: #6c0a12;
+    a {
+      text-decoration: none;
+    }
 
     li {
       color: #fff;
       padding: 15px 10px;
       font-size: 16px;
       font-weight: bold;
+      border-bottom: 1px solid ${darken(0.03, '#de4e3a')};
 
       &:hover {
-        background: green;
+        background: ${darken(0.3, '#de4e3a')};
         cursor: pointer;
       }
     }
