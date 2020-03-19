@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {MdDelete} from 'react-icons/md'
 import Menu from '../../components/Menu';
 import api from '../../services/api';
 import { Container, Form, Panel, FormImagens } from './style';
@@ -10,7 +11,7 @@ class MainSystem extends Component {
     price: Number,
     stock:Number,
     type:'',
-    image: '',
+    images: [],
     faq:[],
     question:'',
     answer:''
@@ -20,12 +21,12 @@ class MainSystem extends Component {
       const {id} =this.props.match.params;
       if(id){
         const response = await api.get(`/products/${id}`)
-        const {title,description,price,stock,type,image,faq} = response.data;
-        console.log('aa');
+        const {title,description,price,stock,type,images,faq} = response.data;
+
 
 
         this.setState({
-          title,description,price,stock,type,image,faq
+          title,description,price,stock,type,images,faq
         })
 
       }
@@ -33,7 +34,7 @@ class MainSystem extends Component {
     }
 
    handleSaveProduct =async ()=>{
-    const {title,description,price,stock,type,image,faq} =this.state;
+    const {title,description,price,stock,type,images,faq} =this.state;
     const {id} =this.props.match.params;
 
 
@@ -44,7 +45,7 @@ class MainSystem extends Component {
         price,
         stock,
         type,
-        image,
+        images,
         faq
       });
 
@@ -55,13 +56,13 @@ class MainSystem extends Component {
         price,
         stock,
         type,
-        image,
+        images,
         faq
       });
     }
 
 
-    this.setState({title:'',description:'',price:0,stock:0,type:'',image:'',faq:[]})
+    this.setState({title:'',description:'',price:0,stock:0,type:'',images:[],faq:[]})
 
   }
   handleAddFaq=()=>{
@@ -109,7 +110,7 @@ class MainSystem extends Component {
 
   render() {
 
-    const {title,description,price,stock,type,image,faq,question,answer} =this.state;
+    const {title,description,price,stock,type,images,faq,question,answer} =this.state;
     return (
       <Container>
         <Menu />
@@ -148,7 +149,7 @@ class MainSystem extends Component {
                     <tr>
                       <th>Pergunta</th>
                       <th>Resposta</th>
-                      <th>acao</th>
+                      <th/>
                     </tr>
                   </thead>
                   <tbody>
@@ -156,7 +157,7 @@ class MainSystem extends Component {
                       <tr key={f.id}>
                         <td>{f.question}</td>
                         <td>{f.answer}</td>
-                        <td>Excluir</td>
+                        <td><MdDelete size={26} color="#22272a"/></td>
                       </tr>
                     ))}
 
@@ -184,27 +185,34 @@ class MainSystem extends Component {
 
             </Form>
             <FormImagens >
-              <div>
-                <img
-                  src={image}
-                  alt={title}
-                />
-              </div>
+              <div className="carrousel">
+                {images.map(i=>(
+                  <img
+                    key={i.id}
+                    src={i.image}
+                    alt={title}
+                    id={i.id}
+                    />
+                  ))}
+
+                </div>
               <div>
                 <table>
                   <thead>
                     <tr>
                       <th>Nome</th>
                       <th />
-                      <th />
+
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>134163876_1GG.jpg</td>
-                      <td>Visualizar</td>
-                      <td>Deletar</td>
-                    </tr>
+                    {images.map(img=>(
+                      <tr>
+                        <a href={`#${img.id}`}><td>{`Imagem${img.id}`}</td></a>
+                        <td><td><MdDelete size={26}/></td></td>
+                      </tr>
+                    ))}
+
                   </tbody>
                 </table>
 

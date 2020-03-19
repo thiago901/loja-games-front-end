@@ -1,4 +1,9 @@
 import styled from 'styled-components';
+/*
+  #0e0125
+  #260c39
+  #2f167f
+*/
 
 /*
   #de4e3a
@@ -15,36 +20,48 @@ export const Container = styled.div`
 export const Panel = styled.div`
   flex: 1;
   height: 100%;
-  background: #6fa1cd;
+  width: 90%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  div {
+    margin: 20px 0;
+    width: 90%;
+    text-align: right;
+  }
+  input {
+    border: 1px solid #eee;
+    border-radius: 4px;
+    height: 40px;
+    width: 50%;
+    padding: 5px 10px;
+    font-size: 17px;
+  }
 `;
 
 export const TableProduct = styled.table`
-  font-family: 'Trebuchet MS', Arial, Helvetica, sans-serif;
   border-collapse: collapse;
-
-  td,
-  th {
-    border: 1px solid #ddd;
-    padding: 8px;
-  }
-
-  tr:nth-child(even) {
-    background-color: #f2f2f2;
-  }
-
-  tr:hover {
-    background-color: #ddd;
-  }
+  margin: 0 auto;
+  width: 90%;
 
   th {
-    padding-top: 12px;
-    padding-bottom: 12px;
+    background: #22272a;
+    color: #fff;
     text-align: left;
-    background-color: #4caf50;
-    color: white;
+    padding: 5px 15px;
+  }
+  tr {
+    height: 40px;
+  }
+  td {
+    padding: 10px;
+  }
+  tbody tr:nth-child(even) {
+    background: #eee;
+  }
+
+  a {
+    justify-content: flex-end;
   }
 `;

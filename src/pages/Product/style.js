@@ -36,7 +36,7 @@ export const Menu = styled.div`
 export const Panel = styled.div`
   flex: 1;
   height: 100%;
-  background: #6fa1cd;
+  background: #22272a;
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -106,7 +106,6 @@ export const Form = styled.form`
     width: 100%;
     td,
     th {
-      border: 1px solid #eee;
       padding: 8px;
     }
 
@@ -136,20 +135,28 @@ export const FormImagens = styled.form`
   border-radius: 4px;
   width: 300px;
 
-  align-items: center;
-  div {
-    width: 100%;
-  }
-  img {
+  .carrousel {
+    display: flex;
     width: 250px;
+    height: 250px;
+    overflow: hidden;
+    scroll-behavior: smooth;
+
+    img {
+      width: 250px;
+    }
   }
+
   input {
     height: 25px;
     margin-top: 10px;
   }
+  table {
+    width: 100%;
+  }
   th,
   td {
-    width: 250px;
+    width: 100%;
   }
   button {
   }

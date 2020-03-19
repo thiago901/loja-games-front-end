@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import {MdOpenInNew, MdEdit,MdDelete,MdAddBox} from 'react-icons/md'
+import {formatPrice} from '../../util/format'
 import api from '../../services/api';
 import Menu from '../../components/Menu';
 
@@ -12,7 +14,11 @@ class MainSystem extends Component {
 
   async componentDidMount(){
     const response = await api.get('/products');
-    this.setState({products:response.data})
+    const data = response.data.map(product=>({
+      ...product,
+      formatPrice:formatPrice(product.price)
+    }))
+    this.setState({products:data})
   }
   render() {
     const {products} =this.state;
@@ -20,7 +26,9 @@ class MainSystem extends Component {
       <Container>
         <Menu />
         <Panel>
-          <input type="text" />
+          <div>
+            <input type="text"  placeholder="Procure um produto"/>
+          </div>
           <TableProduct>
             <thead>
               <tr>
@@ -35,16 +43,28 @@ class MainSystem extends Component {
               {products.map(p=>(
                 <tr>
                 <td>{p.title}</td>
-                <td>{p.price}</td>
-                <td><a href={`/product/${p.id}/detail`} target="_blank" rel="noopener noreferrer">Visualizar</a></td>
-                <td><a href={`product/${p.id}/update`} >Editar</a></td>
-                <td>Excluir</td>
+                <td>{p.formatPrice}</td>
+                <td>
+                  <a
+                    href={`/product/${p.id}/detail`}
+                    target="_blank" rel="noopener noreferrer">
+                      <MdOpenInNew size={26} color="#22272a"/>
+                  </a>
+                </td>
+                <td>
+                  <a href={`product/${p.id}/update`} >
+                    <MdEdit size={26} color="#22272a"/>
+                  </a>
+                </td>
+                <td><MdDelete size={26} color="#22272a"/></td>
               </tr>
               ))}
             </tbody>
 
           </TableProduct>
-          <Link to="/product/create">NOVO</Link>
+          <div>
+            <Link to="/product/create"><MdAddBox size={40} color="#22272a"/></Link>
+          </div>
         </Panel>
       </Container>
     );
