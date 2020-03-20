@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom'
 import { connect } from 'react-redux';
-import { MdAddCircle } from 'react-icons/md';
+import { MdAddCircle,MdShoppingBasket, MdSearch } from 'react-icons/md';
+
 import {formatPrice} from '../../util/format';
 import api from '../../services/api'
-import Header from '../../components/Header';
+
 
 import {
   Container,
@@ -14,11 +15,14 @@ import {
   Characters,
   Adverts,
   Card,
+  Header,
+  InputSearch
 } from './style';
 
 class Main extends Component {
  state = {
     products: [],
+    searchProduct:''
   };
   async componentDidMount(){
 
@@ -46,6 +50,45 @@ class Main extends Component {
     return 'https://obj.ibxk.com.br/layout/bj/especiais/the-witcher-3/assets/images/witcher-main-poster.png';
     // "https://obj.ibxk.com.br/layout/bj/especiais/the-witcher-3/assets/images/witcher-main-poster.png"
   }
+  handelSeachProduct=async ()=>{
+    const {searchProduct} = this.state;
+
+
+    const response = await api.get('/products');
+    const data = response.data.map(product=>({
+      ...product,
+      formatPrice:formatPrice(product.price)
+      }))
+
+      const filter = data.filter(f=>{
+        const expressao = new RegExp(searchProduct,"i")
+        console.log((expressao.test(f.title)));
+
+        return (expressao.test(f.title))
+      });
+      console.log(filter);
+
+    this.setState({products:filter})
+  }
+  handleSeach=(e)=>{
+    this.setState({searchProduct:e.target.value})
+
+  }
+  handleImgMain=(p)=>{
+   const img= p.images.find(f=>{
+      return f.main===true;
+    })
+
+      if(img){
+        return img.image;
+      }
+
+
+
+
+
+
+  }
 
   render() {
     const { products } = this.state;
@@ -55,7 +98,27 @@ class Main extends Component {
       <>
 
         <Container>
-          <Header />
+        <Header>
+            <Link to="/">
+              <h1>CompreGames.com</h1>
+            </Link>
+            <ul>
+              <li>Games</li>
+              <li>Consoles</li>
+              <li>Promoções</li>
+              <li>Novidades</li>
+            </ul>
+            <InputSearch>
+              <input type="text" onChange={this.handleSeach} />
+              <MdSearch color="#fff" size={26} onClick={this.handelSeachProduct}/>
+            </InputSearch>
+            <Link to="/cart">
+              <div className="shopping-basket">
+                {0}
+                <MdShoppingBasket color="#fff" size={36} />
+              </div>
+            </Link>
+        </Header>
           <Banner>
             <Characters>
               <div>
@@ -115,8 +178,9 @@ class Main extends Component {
                 <li key={product.id}  >
                 <Link to={`/product/${product.id}/detail`}>
                   <div className="imgs">
+
                     <img
-                      src={product.images[0].image}
+                      src={this.handleImgMain(product)}
                       alt={product.title}
                     />
                   </div>

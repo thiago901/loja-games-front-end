@@ -125,7 +125,7 @@ class MainSystem extends Component {
               <input
                 type="text"
                 onChange={this.handleAddType}
-                placeholder="Informe o tipo de produto"
+                placeholder="Informe a plataforma"
                 defaultValue={type}/>
               <input
                 type="Number"
