@@ -1,234 +1,305 @@
-import React, { Component } from 'react';
-import {MdDelete} from 'react-icons/md'
-import Menu from '../../components/Menu';
+import React, { useState, useEffect } from 'react';
+import { MdDelete, MdFileUpload } from 'react-icons/md';
+import PropTypes from 'prop-types';
+import SystemWeb from '../_layouts/systemWeb';
 import api from '../../services/api';
-import { Container, Form, Panel, FormImagens } from './style';
 
-class MainSystem extends Component {
-  state = {
-    title: '',
-    description:'',
-    price: Number,
-    stock:Number,
-    type:'',
-    images: [],
-    faq:[],
-    question:'',
-    answer:''
-  };
+import { ProductForm, Panel, FormImagens, Faq, TableContainer } from './style';
 
-    async componentDidMount(){
-      const {id} =this.props.match.params;
-      if(id){
-        const response = await api.get(`/products/${id}`)
-        const {title,description,price,stock,type,images,faq} = response.data;
+export default function MainSystem({ match }) {
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [labels, setLabels] = useState('');
+  const [plataform, setPlataform] = useState('');
+  const [price, setPrice] = useState('');
+  const [available = true, setAvailable] = useState(Boolean);
+  const [faqs, setFaqs] = useState([]);
+  const [images, setImages] = useState([]);
+  const [question, setQuestion] = useState('');
+  const [answer, setAnswer] = useState('');
 
+  useEffect(() => {
+    async function load() {
+      const { id } = match.params;
 
+      const response = await api.get(`/products/${id}/detail`);
+      const { data } = response;
 
-        this.setState({
-          title,description,price,stock,type,images,faq
-        })
+      setTitle(data.title);
+      setDescription(data.description);
+      setLabels(data.labels);
+      setPlataform(data.plataform);
+      setAvailable(data.available);
+      setFaqs(data.faqs);
+      setImages(data.images);
+      setPrice(data.price);
 
-      }
-
+      const radio = document.querySelectorAll('.availabel');
+      const checked = data.available;
+      // eslint-disable-next-line no-unused-expressions
+      checked
+        ? radio[0].setAttribute('checked', '')
+        : radio[1].setAttribute('checked', '');
     }
+    load();
+  }, [match.params]);
 
-   handleSaveProduct =async ()=>{
-    const {title,description,price,stock,type,images,faq} =this.state;
-    const {id} =this.props.match.params;
-
-
-    if(id){
-      await api.put(`/products/${id}`,{
-        title,
-        description,
-        price,
-        stock,
-        type,
-        images,
-        faq
-      });
-
-    }else{
-      await api.post('/products',{
-        title,
-        description,
-        price,
-        stock,
-        type,
-        images,
-        faq
-      });
+  function handleAddFaqs() {
+    if (answer && question) {
+      setFaqs([...faqs, { answer, question }]);
+      setQuestion('');
+      setAnswer('');
     }
+  }
+  async function handleDeleteFaq(faq, index) {
+    const newFaqs = faqs.filter((item, i) => {
+      return i !== index;
+    });
 
+    await api.delete(`/faq/${faq.id}`);
 
-    this.setState({title:'',description:'',price:0,stock:0,type:'',images:[],faq:[]})
+    setFaqs(newFaqs);
+  }
+  async function handleSaveFaq(id) {
+    const data = {
+      product_id: id,
+      faqs,
+    };
+    console.log(data);
+    const response = await api.post('/relateFaqProduct', data);
+  }
+  async function handleRelatedImages(id) {
+    const data = {
+      product_id: id,
+      images,
+    };
 
-  }
-  handleAddFaq=()=>{
-    const {faq,question,answer} =this.state;
-    const id=faq.length+1;
-    this.setState({faq:[...faq,{
-        id,
-        question,
-        answer
-      }],
-      question:'',
-      answer:''
-    })
-
-  }
-
-  handleAddTitle = e=>{
-    this.setState({title:e.target.value})
-  }
-  handleAddDescription = e=>{
-    this.setState({description:e.target.value})
-  }
-  handleAddPrice = e=>{
-    this.setState({price:e.target.value})
-  }
-  handleAddType = e=>{
-    this.setState({type:e.target.value})
-  }
-  handleAddStock = e=>{
-    this.setState({stock:e.target.value})
-  }
-  handleAddAnswer = e=>{
-    this.setState({answer:e.target.value})
-  }
-  handleAddQuestion = e=>{
-    this.setState({question:e.target.value})
-  }
-  handleAddImg=e=>{
-    // const file = e.target.files;
-    // console.log(file);
-    this.setState({image:e.target.value})
-
+    await api.post('/relateProductImage', data);
   }
 
+  async function handleSaveProduct() {
+    const idParams = match.params.id;
 
-  render() {
+    const data = {
+      title,
+      description,
+      labels,
+      plataform,
+      available,
+      price,
+    };
 
-    const {title,description,price,stock,type,images,faq,question,answer} =this.state;
-    return (
-      <Container>
-        <Menu />
-        <Panel>
-          <div className="content">
-            <Form>
+    if (idParams) {
+      await api.put(`/products/${idParams}`, data);
+      handleSaveFaq(idParams);
+      handleRelatedImages(idParams);
+      return;
+    }
+    const response = await api.post('/products', data);
+    const { id } = response.data;
 
-              <input type="text"
-                onChange={this.handleAddTitle}
-                placeholder="Informe o titulo de produto"
-                defaultValue={title}/>
+    handleSaveFaq(id);
+    handleRelatedImages(id);
+
+    setTitle('');
+    setDescription('');
+    setAvailable(true);
+    setLabels('');
+    setPlataform('');
+    setFaqs([]);
+    setImages([]);
+  }
+  async function handleAddImage(e) {
+    const formData = new FormData();
+    formData.append('file', e.target.files[0]);
+    const result = await api.post('/files', formData);
+
+    setImages([...images, result.data]);
+  }
+  async function handleDeleteImage(file, index) {
+    const newImages = images.filter((item, i) => {
+      return i !== index;
+    });
+
+    await api.delete(`/files/${file.id}`, {
+      headers: {
+        'Content-Typer': `multipart/form-data`,
+        Authorization:
+          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzcsImlhdCI6MTU4NDg5MzEzNiwiZXhwIjoxNTg1NDk3OTM2fQ.4OrnUfAfFp4ghSemRQPg_Vs3dznot5BWPflEGYkD0Oc',
+      },
+    });
+
+    setImages(newImages);
+  }
+  return (
+    <SystemWeb>
+      <Panel>
+        <div className="content">
+          <ProductForm>
+            <input
+              type="text"
+              onChange={e => setTitle(e.target.value)}
+              placeholder="Informe o titulo de produto"
+              value={title}
+            />
+            <input
+              type="text"
+              onChange={e => setLabels(e.target.value)}
+              placeholder="Informe as Labels"
+              value={labels}
+            />
+            <div className="input-groups">
               <input
                 type="text"
-                onChange={this.handleAddType}
+                onChange={e => setPlataform(e.target.value)}
                 placeholder="Informe a plataforma"
-                defaultValue={type}/>
-              <input
-                type="Number"
-                onChange={this.handleAddStock}
-                placeholder="Quantidade de estoque"
-                defaultValue={stock}/>
-              <input
-                type="Number"
-                onChange={this.handleAddPrice}
-                placeholder="Valor Unitario"
-                defaultValue={price}/>
-              <textarea
-                type="text"
-                placeholder="Informe o Descrição de produto"
-                defaultValue={description}
+                value={plataform}
+                className="plataform"
               />
+              <input
+                type="number"
+                onChange={e => setPrice(e.target.value)}
+                placeholder="Informe o preço"
+                value={price}
+                className="price"
+                min={1}
+              />
+              <div className="input-radio">
+                <h1>Produto Diponivel</h1>
+                <div>
+                  <label>Sim</label>
 
-                <div className="table">
+                  <input
+                    id="availabel-true"
+                    type="radio"
+                    name="availabel"
+                    className="availabel"
+                    onChange={() => setAvailable(true)}
+                  />
+                  <label>Não</label>
+                  <input
+                    id="availabel-false"
+                    type="radio"
+                    name="availabel"
+                    className="availabel"
+                    onChange={() => setAvailable(false)}
+                  />
+                </div>
+              </div>
+            </div>
+            <textarea
+              type="text"
+              placeholder="Informe o Descrição de produto"
+              onChange={e => setDescription(e.target.value)}
+              value={description}
+            />
+            <Faq>
+              <TableContainer>
                 <table>
                   <thead>
                     <tr>
                       <th>Pergunta</th>
                       <th>Resposta</th>
-                      <th/>
+                      <th> </th>
                     </tr>
                   </thead>
                   <tbody>
-                    {faq.map(f=>(
-                      <tr key={f.id}>
+                    {faqs.map((f, index) => (
+                      // eslint-disable-next-line react/no-array-index-key
+                      <tr key={index}>
                         <td>{f.question}</td>
                         <td>{f.answer}</td>
-                        <td><MdDelete size={26} color="#22272a"/></td>
+                        <td>
+                          <MdDelete
+                            size={26}
+                            color="#22272a"
+                            onClick={() => handleDeleteFaq(f, index)}
+                          />
+                        </td>
                       </tr>
                     ))}
-
                   </tbody>
                 </table>
+              </TableContainer>
+              <div className="btns-add-faq">
+                <div className="faq">
+                  <input
+                    type="text"
+                    placeholder="Pergunta"
+                    onChange={e => setQuestion(e.target.value)}
+                    value={question}
+                  />
+                  <input
+                    type="text"
+                    placeholder="Resposta"
+                    onChange={e => setAnswer(e.target.value)}
+                    value={answer}
+                  />
                 </div>
-
-                <div className="btns-add-faq">
-                  <div className="faq">
-                    <input
-                      type="text"
-                      placeholder="Pergunta"
-                      onChange={this.handleAddQuestion}
-                      value={question}
-                    />
-                    <input
-                      type="text"
-                      placeholder="Resposta"
-                      onChange={this.handleAddAnswer}
-                      value={answer}
-                    />
-                  </div>
-                  <button type="button" onClick={this.handleAddFaq}>Add</button>
-                </div>
-
-            </Form>
-            <FormImagens >
-              <div className="carrousel">
-                {images.map(i=>(
-                  <img
-                    key={i.id}
-                    src={i.image}
-                    alt={title}
-                    id={i.id}
-                    />
-                  ))}
-
-                </div>
-              <div>
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Nome</th>
-                      <th />
-
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {images.map(img=>(
-                      <tr>
-                        <a href={`#${img.id}`}><td>{`Imagem${img.id}`}</td></a>
-                        <td><td><MdDelete size={26}/></td></td>
-                      </tr>
-                    ))}
-
-                  </tbody>
-                </table>
-
-                  {/* <input type="file" multiple onChangeCapture={this.handleAddImg}/> */}
-                  <input type="text" onChange={this.handleAddImg}/>
-
-
+                <button type="button" onClick={handleAddFaqs}>
+                  Add
+                </button>
               </div>
-              <button type="button" onClick={this.handleSaveProduct}>Salvar</button>
-            </FormImagens>
-
-          </div>
-        </Panel>
-      </Container>
-    );
-  }
+            </Faq>
+          </ProductForm>
+          <FormImagens>
+            <div className="carrousel">
+              {images.map(i => (
+                <img key={i.id} src={i.url} alt={title} id={i.id} />
+              ))}
+            </div>
+            <div className="listImages">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Nome</th>
+                    <th> </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {images.map((img, index) => (
+                    <tr key={img.id}>
+                      <td>
+                        <a href={`#${img.id}`}>
+                          <p>{img.name}</p>
+                        </a>
+                      </td>
+                      <td>
+                        <MdDelete
+                          size={26}
+                          onClick={() => handleDeleteImage(img, index)}
+                        />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <div className="button_upload">
+                <input
+                  id="uploads"
+                  type="file"
+                  onChangeCapture={handleAddImage}
+                />
+                <label htmlFor="uploads">
+                  <MdFileUpload size={26} color="#fff" />
+                  <strong>Upload file</strong>
+                </label>
+              </div>
+            </div>
+            <button
+              type="button"
+              className="button-save"
+              onClick={handleSaveProduct}
+            >
+              Salvar
+            </button>
+          </FormImagens>
+        </div>
+      </Panel>
+    </SystemWeb>
+  );
 }
 
-export default MainSystem;
+MainSystem.propTypes = {
+  match: PropTypes.element.isRequired,
+};

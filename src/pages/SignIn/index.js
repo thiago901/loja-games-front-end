@@ -1,9 +1,17 @@
-import React from 'react';
-
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Container, Form, ButtonLogin, ButtonSignUp } from './style';
 import AnimationCube from '../../components/AnimationCube';
 
+import { signInRequest } from '../../store/module/auth/actions';
+
 function SignIn() {
+  const dispatch = useDispatch();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  function handleSubmit() {
+    dispatch(signInRequest(email, password));
+  }
   return (
     <Container>
       <div className="img-left">
@@ -16,10 +24,22 @@ function SignIn() {
       <Form>
         <div className="content">
           <h1>CompreGames.com</h1>
-          <input type="email" placeholder="Informe o email" />
-          <input type="password" placeholder="Digite a senha" />
+          <input
+            type="email"
+            placeholder="Informe o email"
+            onChange={e => setEmail(e.target.value)}
+            value={email}
+          />
+          <input
+            type="password"
+            placeholder="Digite a senha"
+            onChange={e => setPassword(e.target.value)}
+            value={password}
+          />
           <div className="buttons">
-            <ButtonLogin>Login</ButtonLogin>
+            <ButtonLogin type="button" onClick={handleSubmit}>
+              Login
+            </ButtonLogin>
             <ButtonSignUp to="/signUp">Sign Up</ButtonSignUp>
           </div>
         </div>

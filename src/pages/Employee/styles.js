@@ -1,32 +1,17 @@
 import styled from 'styled-components';
 /*
-  #0e0125
-  #260c39
-  #2f167f
-*/
-
-/*
   #de4e3a
   #6fa1cd
   #6c0a12
   #22272a
 */
-
-export const Panel = styled.div`
-  flex: 1;
-  max-height: 100%;
+export const Content = styled.div`
+  margin: 20px 0;
   width: 90%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: end;
+  text-align: right;
 
-  div {
-    margin: 20px 0;
-    width: 90%;
-    text-align: right;
-  }
   input {
+    margin-bottom: 10px;
     border: 1px solid #eee;
     border-radius: 4px;
     height: 40px;
@@ -36,10 +21,13 @@ export const Panel = styled.div`
   }
   .navigation-buttons {
     display: flex;
+    align-items: center;
+    justify-content: center;
     .navigation {
       display: flex;
       align-items: center;
       justify-content: center;
+      flex: 1;
       button {
         display: flex;
         align-items: center;
@@ -52,17 +40,16 @@ export const Panel = styled.div`
         }
       }
     }
+  }
 
-    .button-create {
-      width: 10%;
-    }
+  .button-create {
+    justify-self: end;
   }
 `;
 
 export const TableProduct = styled.table`
   border-collapse: collapse;
-  margin: 0 auto;
-  width: 90%;
+  width: 100%;
 
   th {
     background: #22272a;
@@ -74,7 +61,11 @@ export const TableProduct = styled.table`
     height: 35px;
   }
   td {
-    padding: 5px;
+    text-align: left;
+    padding: 5px 15px;
+  }
+  .button-delete {
+    width: 200px;
   }
   tbody tr:nth-child(even) {
     background: #eee;
@@ -82,5 +73,26 @@ export const TableProduct = styled.table`
 
   a {
     justify-content: flex-end;
+  }
+
+  .delete-users {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    button {
+      border: 0;
+      background: 0;
+    }
+
+    .confirm {
+      display: flex;
+      align-items: center;
+      margin-left: 10px;
+      padding: 0 10px;
+      &:hover {
+        background: #de4e3a;
+        color: #fff;
+      }
+    }
   }
 `;

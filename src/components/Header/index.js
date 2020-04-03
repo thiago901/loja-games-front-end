@@ -2,9 +2,10 @@ import React from 'react';
 import { MdShoppingBasket, MdSearch } from 'react-icons/md';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { Header, InputSearch } from './style';
 
-function AnimationCube({ cartSize }) {
+function Menu({ cartSize }) {
   return (
     <Header>
       <Link to="/">
@@ -30,6 +31,10 @@ function AnimationCube({ cartSize }) {
   );
 }
 
+Menu.propTypes = {
+  cartSize: PropTypes.element.isRequired,
+};
+
 export default connect(state => ({
   cartSize: state.cart.length,
-}))(AnimationCube);
+}))(Menu);

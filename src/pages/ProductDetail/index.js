@@ -17,13 +17,15 @@ export default class ProductDetail extends Component {
     const {id} = this.props.match.params;
     const response = await api.get(`/products/${id}`);
     this.setState({product:response.data});
+
+    console.log(response.data)
   }
 
 
   render() {
 
     const {product} =this.state;
-    const {faq=[]}=product;
+    const {faqs=[]}=product;
     const {images=[]}=product;
 
 
@@ -38,7 +40,7 @@ export default class ProductDetail extends Component {
               {images.map(i=>(
                 <img
                   key={i.id}
-                  src={i.image}
+                  src={i.url}
                   alt={product.title}
                   id={i.id}
                 />
@@ -50,7 +52,6 @@ export default class ProductDetail extends Component {
                 <a
                   key={i.id}
                   href={`#${i.id}`}
-
                 >{i.id}</a>
               ))}
 
@@ -73,14 +74,12 @@ export default class ProductDetail extends Component {
               </tr>
             </thead>
             <tbody>
-              {faq.map(f=>(
+              {faqs.map(f=>(
                 <tr key={f.id}>
                   <td>{f.question}</td>
                   <td>{f.answer}</td>
                 </tr>
               ))}
-
-
             </tbody>
           </table>
         </Faq>

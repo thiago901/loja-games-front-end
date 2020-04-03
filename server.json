@@ -125,7 +125,6 @@
       ]
     },
     {
-      "id": 3,
       "title": "Jogo PS4 - Crash Bandicoot - N'Sane Trilogy - Activision",
       "description": "Crash Bandicoot é uma série de jogos criada por Andy Gavin e Jason Rubin que são inclusive os fundadores da Naughty Dog. A série consiste basicamente nas aventuras do bandicoot geneticamente alterado Crash, que luta para impedir o planos do cientista do mal Neo Córtex e seus lacaios. A história do jogo se passa nas fictícias Ilhas Wumpa, um arquipélago situado na costa noroeste da Austrália, mas outros lugares são revelados. A série começou em 1996 e no momento, a franquia contém um total de 18 jogos diferentes e já vendeu cerca de 56 milhões e meio de cópias no mundo, se tornando uma das séries de jogos eletrônicos mais vendidas de sempre.",
       "price": 219.9,
@@ -166,8 +165,14 @@
           "id": 4,
           "question": "É possivel parcelar?",
           "answer": "Sim, em até 24x"
+        },
+        {
+          "id": 5,
+          "question": "Uma pergutnta",
+          "answer": "Uma Resposta"
         }
-      ]
+      ],
+      "id": 3
     },
     {
       "id": 5,
@@ -369,6 +374,38 @@
         }
       ],
       "id": 9
+    },
+    {
+      "title": "Um jogo",
+      "description": "",
+      "price": "111",
+      "stock": "30",
+      "type": "PS4",
+      "images": [],
+      "faq": [
+        {
+          "id": 1,
+          "question": "Pergunta",
+          "answer": "Resposta"
+        }
+      ],
+      "id": 10
+    },
+    {
+      "title": "Outro Jogo",
+      "description": "",
+      "price": "350",
+      "stock": "35",
+      "type": "PS4",
+      "images": [],
+      "faq": [
+        {
+          "id": 1,
+          "question": "pergunta",
+          "answer": "Resposta"
+        }
+      ],
+      "id": 11
     }
   ]
 }

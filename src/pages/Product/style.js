@@ -5,6 +5,7 @@ import styled from 'styled-components';
   #6fa1cd
   #6c0a12
   #22272a
+  #27ae60
 */
 export const Container = styled.div`
   width: 100%;
@@ -45,9 +46,10 @@ export const Panel = styled.div`
     display: flex;
     justify-content: space-around;
     height: 100%;
+    width: 90%;
   }
 `;
-export const Form = styled.form`
+export const ProductForm = styled.form`
   display: flex;
   flex-direction: column;
   padding: 20px;
@@ -59,7 +61,6 @@ export const Form = styled.form`
   input {
     height: 25px;
     margin-bottom: 10px;
-
     padding: 15px 10px;
     border-radius: 4px;
     border: 1px solid #eee;
@@ -69,41 +70,78 @@ export const Form = styled.form`
     height: 100px;
     border-radius: 4px;
     border: 1px solid #eee;
-    text-indent: 1.5em;
     line-height: 1.4;
     text-align: justify;
   }
-  .faq {
-    width: 100%;
+  .input-groups {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
+    input[type='number'] {
+      margin-left: 10px;
+    }
+    .plataform {
+      flex: 1;
+    }
+    .input-radio {
+      margin: 0 10px 0 10px;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      h1 {
+        font-size: 16px;
+      }
+      div {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        width: 100px;
+        input {
+          margin: 0;
+        }
+      }
+    }
   }
+`;
+
+export const Faq = styled.div`
+  height: 100%;
   .btns-add-faq {
     display: flex;
-    justify-self: flex-end;
 
+    .faq {
+      width: 90%;
+      display: block;
+      input {
+        width: 100%;
+      }
+    }
     button {
-      align-self: flex-end;
+      justify-self: stretch;
+      flex: 1;
+      padding: 0 5px;
       margin: 0 0 10px 5px;
-      width: 50px;
       border-radius: 4px;
       border: none;
       border: 1px solid #eee;
-      background: #6fa1cd;
+      background: #de4e3a;
+      font-weight: bold;
       color: #fff;
     }
   }
+`;
 
-  .table {
-    max-width: 100%;
-    max-height: 200px;
-    overflow-y: scroll;
-    margin: 10px 0;
-  }
+export const TableContainer = styled.div`
+  max-width: 100%;
+  height: 250px;
+  justify-self: stretch;
+  overflow-y: scroll;
+  margin: 10px 0;
+
   table {
     border-collapse: collapse;
     width: 100%;
+
     td,
     th {
       padding: 8px;
@@ -121,12 +159,18 @@ export const Form = styled.form`
       padding-top: 12px;
       padding-bottom: 12px;
       text-align: left;
-      background-color: #22272a;
+      background-color: #de4e3a;
       color: #fff;
     }
+    td {
+      max-width: 15ch;
+      overflow: hidden;
+    }
+  }
+  svg {
+    cursor: pointer;
   }
 `;
-
 export const FormImagens = styled.form`
   display: flex;
   flex-direction: column;
@@ -137,6 +181,7 @@ export const FormImagens = styled.form`
 
   .carrousel {
     display: flex;
+    flex-shrink: 0;
     width: 250px;
     height: 250px;
     overflow: hidden;
@@ -151,13 +196,70 @@ export const FormImagens = styled.form`
     height: 25px;
     margin-top: 10px;
   }
-  table {
-    width: 100%;
+  .button-save {
+    background: #27ae60;
+    height: 55px;
+    border: 0;
+    color: #fff;
+    font-weight: bold;
+    border-radius: 4px;
+    margin: 10px 0;
   }
-  th,
-  td {
-    width: 100%;
+  .listImages {
+    height: 100%;
+    overflow-y: scroll;
+    table {
+      width: 100%;
+    }
+    th,
+    td {
+      width: 100%;
+    }
+    .button_upload {
+      background: #de4e3a;
+      height: 35px;
+      border-radius: 4px;
+      margin: 10px 0;
+
+      label {
+        display: inline-block;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        &:hover {
+          cursor: pointer;
+        }
+        strong {
+          text-align: center;
+          display: inline-block;
+          color: #fff;
+        }
+      }
+    }
+    input[type='file'] {
+      display: none;
+    }
+    svg {
+      cursor: pointer;
+    }
+    a {
+      p {
+        overflow: hidden;
+        max-width: 25ch;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      text-decoration: none;
+      color: #22272a;
+
+      &:hover {
+        color: #de4e3a;
+      }
+    }
   }
+
   button {
   }
 `;

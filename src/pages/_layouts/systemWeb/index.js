@@ -1,12 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
+import Menu from '../../../components/Menu';
 import { Wrapper } from './styles';
 
 export default function SystemWeb({ children }) {
-  return <Wrapper>{children}</Wrapper>;
+  return (
+    <Wrapper>
+      <Menu />
+      {children}
+    </Wrapper>
+  );
 }
 
-SystemWeb.prototype = {
+SystemWeb.propTypes = {
   children: PropTypes.element.isRequired,
 };
