@@ -65,8 +65,8 @@ export default function MainSystem({ match }) {
       product_id: id,
       faqs,
     };
-    console.log(data);
-    const response = await api.post('/relateFaqProduct', data);
+
+    await api.post('/relateFaqProduct', data);
   }
   async function handleRelatedImages(id) {
     const data = {

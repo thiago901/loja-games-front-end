@@ -8,4 +8,5 @@ export const Wrapper = styled.div`
   background-size: cover;
   padding: 20px;
   margin: 0 auto;
+  min-height: 100vh;
 `;

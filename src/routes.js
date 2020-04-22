@@ -12,6 +12,7 @@ import Employee from './pages/Employee';
 import EmployeeEdit from './pages/EmployeeEdit';
 import EmployeeCreate from './pages/EmployeeCreate';
 import Cart from './pages/Cart';
+import Profile from './pages/Profile';
 
 import { store } from './store';
 
@@ -21,14 +22,16 @@ export default function Routes() {
 
   return (
     <Switch>
+      {/* Rotas Livres */}
       <Route path="/" exact component={Main} />
       <Route path="/signIn" exact component={SignIn} />
       <Route path="/signUp" exact component={SignUp} />
-
       <Route path="/product/:id/detail" exact component={ProductDetail} />
-
       <Route path="/cart" exact component={Cart} />
 
+      {signed && <Route path="/profile" exact component={Profile} />}
+
+      {/* Rotas de Funcionario logado e ativo */}
       {signed && user.profile.provider && user.profile.active ? (
         <>
           <Route path="/system" exact component={MainSystem} />
@@ -38,6 +41,7 @@ export default function Routes() {
           <Route path="/acquisitions" exact component={Acquisitions} />
           <Route path="/acquisitions/:id" exact component={AcquisitionsEdit} />
 
+          {/* Rotas de Administrador */}
           {user.profile.paperUser.title === 'Administrador' ? (
             <>
               <Route path="/employee" exact component={Employee} />

@@ -14,6 +14,10 @@ export default function auth(state = INITIAL_STATE, action) {
       return produce(state, draft => {
         draft.profile = null;
       });
+    case '@user/UPDATE_PROFILE_SUCCESS':
+      return produce(state, draft => {
+        draft.profile.client.name = action.payload;
+      });
     default:
       return state;
   }

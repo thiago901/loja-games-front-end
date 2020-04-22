@@ -1,18 +1,19 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 export const Header = styled.header`
   @import url('https://fonts.googleapis.com/css?family=Frijole&display=swap');
   display: flex;
+  flex: 1;
 
-  padding: 10px;
   background: #de4e3a;
   background-color: #de4e3a;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 1600 800'%3E%3Cg %3E%3Cpolygon fill='%23d74c38' points='1600 160 0 460 0 350 1600 50'/%3E%3Cpolygon fill='%23d14a36' points='1600 260 0 560 0 450 1600 150'/%3E%3Cpolygon fill='%23ca4735' points='1600 360 0 660 0 550 1600 250'/%3E%3Cpolygon fill='%23c44533' points='1600 460 0 760 0 650 1600 350'/%3E%3Cpolygon fill='%23bd4331' points='1600 800 0 800 0 750 1600 450'/%3E%3C/g%3E%3C/svg%3E");
   background-attachment: fixed;
   background-size: cover;
-  width: 100%;
-  height: 100px;
+
   align-items: center;
+  margin-bottom: 20px;
   justify-content: space-between;
   a {
     text-decoration: none;
@@ -22,42 +23,26 @@ export const Header = styled.header`
     font-family: 'Frijole', cursive;
   }
 
-  ul {
-    display: flex;
-    flex: 1;
-    height: 100%;
-    align-items: center;
-    justify-content: space-around;
-    list-style: none;
-    margin-left: 20px;
-
-    li {
-      padding: 15px 10px;
-      color: #fff;
-      font-weight: bold;
-      font-size: 17px;
-      text-align: center;
-      width: 100%;
-
-      &:hover {
-        color: #eee;
-        cursor: pointer;
-        background: #22272a;
-        border-radius: 4px;
-        padding: 10px 15px;
-        transition: background 0.5s linear;
-      }
-    }
-  }
-
   .shopping-basket {
+    position: relative;
     margin-left: 10px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 60px;
+    width: 40px;
     color: #fff;
     font-weight: bold;
+    span {
+      position: absolute;
+      text-align: center;
+      height: 20px;
+      width: 20px;
+      border-radius: 50%;
+      background: orange;
+
+      top: 0;
+      left: 20px;
+    }
   }
   @media (max-width: 640px) {
     display: inline-block;
@@ -130,3 +115,118 @@ export const InputSearch = styled.div`
     width: 100%;
   }
 `;
+export const ListMenu = styled.ul`
+  display: flex;
+  flex: 1;
+  height: 100%;
+  align-items: center;
+  justify-content: space-around;
+  list-style: none;
+  margin-left: 20px;
+
+  li {
+    padding: 15px 10px;
+    color: #fff;
+    font-weight: bold;
+    font-size: 17px;
+    text-align: center;
+    width: 100%;
+
+    &:hover {
+      color: #eee;
+      cursor: pointer;
+      background: #22272a;
+      border-radius: 4px;
+      padding: 10px 15px;
+      transition: background 0.5s linear;
+    }
+  }
+`;
+
+export const MenuHeader = styled.ul`
+  list-style: none;
+  margin-left: 10px;
+  position: relative;
+  button {
+    background: none;
+    border: 0;
+    color: #fff;
+    width: 100%;
+  }
+  li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    img {
+      width: 70px;
+      height: 70px;
+    }
+    span {
+      position: relative;
+      font-size: 12px;
+      top: -10px;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 5px;
+      color: #fff;
+      font-weight: bold;
+      max-width: 15ch;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+  &:hover {
+    cursor: pointer;
+  }
+  &:hover ul {
+    /* display: block; */
+    z-index: 1;
+    opacity: 1;
+  }
+  ul {
+    /* display: none; */
+    opacity: 0;
+    list-style: none;
+    position: absolute;
+    top: 100%;
+    width: 100%;
+    z-index: -1;
+    transition: opacity 1s;
+    li {
+      a {
+        text-decoration: none;
+        color: #fff;
+      }
+
+      margin-bottom: 5px;
+      padding: 2px;
+      &:hover {
+        cursor: pointer;
+        background: rgba(0, 0, 0, 0.6);
+      }
+    }
+    li:nth-child(1n) {
+      transition-delay: opacity 0.5s;
+    }
+    li:nth-child(2n) {
+      transition-delay: opacity 1s;
+    }
+  }
+`;
+
+export const Login = styled(Link)`
+  color: #fff;
+  margin: 0 5px;
+  font-size: 16px;
+  transition: color 0.5s;
+  &:hover {
+    color: rgba(255, 255, 255, 0.6);
+  }
+`;
+/*
+  #de4e3a
+  #6fa1cd
+  #6c0a12
+  #22272a
+  #27ae60
+*/

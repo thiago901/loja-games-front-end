@@ -23,3 +23,10 @@ export function signOut() {
     type: '@auth/SIGN_OUT',
   };
 }
+
+export function signUpRequest(data) {
+  return {
+    type: '@auth/SIGN_UP_REQUEST',
+    payload: data,
+  };
+}

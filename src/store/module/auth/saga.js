@@ -40,8 +40,17 @@ export function setToken({ payload }) {
 export function signOut() {
   history.push('/');
 }
+
+export function* signUp({ payload }) {
+  try {
+    yield call(api.post, '/users', payload);
+  } catch (error) {
+    console.tron.warn('Erro. usuario nao disponivel');
+  }
+}
 export default all([
   takeLatest('@auth/SIGN_IN_REQUEST', signin),
   takeLatest('persist/REHYDRATE', setToken),
   takeLatest('@auth/SIGN_OUT', signOut),
+  takeLatest('@auth/SIGN_UP_REQUEST', signUp),
 ]);

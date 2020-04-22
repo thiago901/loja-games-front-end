@@ -15,7 +15,7 @@ import { Content, Form } from './styles';
 export default function EmployeeEdit({ match }) {
   const [papers, setPapers] = useState([]);
   const [paper, setPaper] = useState();
-  const [idPaper, setIdPaper] = useState();
+  // const [idPaper, setIdPaper] = useState();
 
   const [initialValues, setInitialValues] = useState({});
 
