@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
-import { Container, Form, ButtonLogin, ButtonSignUp } from './style';
+import * as Yup from 'yup';
+import { Input } from '@rocketseat/unform';
+import { Container, FormLogin, ButtonLogin, ButtonSignUp } from './style';
 import AnimationCube from '../../components/AnimationCube';
 
 import { signInRequest } from '../../store/module/auth/actions';
 
 function SignIn() {
   const dispatch = useDispatch();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  function handleSubmit() {
+
+  function handleSubmit({ email, password }) {
     dispatch(signInRequest(email, password));
   }
   return (
@@ -21,30 +22,18 @@ function SignIn() {
         />
       </div>
 
-      <Form>
+      <FormLogin onSubmit={handleSubmit}>
         <div className="content">
           <h1>CompreGames.com</h1>
-          <input
-            type="email"
-            placeholder="Informe o email"
-            onChange={e => setEmail(e.target.value)}
-            value={email}
-          />
-          <input
-            type="password"
-            placeholder="Digite a senha"
-            onChange={e => setPassword(e.target.value)}
-            value={password}
-          />
+          <Input type="email" placeholder="Informe o email" name="email" />
+          <Input type="password" placeholder="Digite a senha" name="password" />
           <div className="buttons">
-            <ButtonLogin type="button" onClick={handleSubmit}>
-              Login
-            </ButtonLogin>
+            <ButtonLogin type="submit">Login</ButtonLogin>
             <ButtonSignUp to="/signUp">Sign Up</ButtonSignUp>
           </div>
         </div>
         <AnimationCube />
-      </Form>
+      </FormLogin>
     </Container>
   );
 }

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-
+import { Form } from '@rocketseat/unform';
 /*
   #0e0125
   #260c39
@@ -35,7 +35,7 @@ export const Container = styled.div`
   }
 `;
 
-export const Form = styled.form`
+export const FormLogin = styled(Form)`
   position: relative;
   display: flex;
   flex: 1;

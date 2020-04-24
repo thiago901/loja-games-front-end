@@ -1,18 +1,19 @@
 import { all, takeLatest, call, put } from 'redux-saga/effects';
+import { toast } from 'react-toastify';
 import api from '../../../services/api';
 import history from '../../../services/history';
-import { signInSuccess } from './actions';
+import { signInSuccess, signFailure } from './actions';
 
 export function* signin({ payload }) {
-  const { email, password } = payload;
-
-  const response = yield call(api.post, '/sessions', {
-    email,
-    password,
-  });
-
-  const { token, user } = response.data;
   try {
+    const { email, password } = payload;
+
+    const response = yield call(api.post, '/sessions', {
+      email,
+      password,
+    });
+
+    const { token, user } = response.data;
     yield put(signInSuccess(token, user));
 
     // adicona o token na Api
@@ -24,7 +25,8 @@ export function* signin({ payload }) {
       history.push('/');
     }
   } catch (error) {
-    alert('aconteceu um erro');
+    toast.error('Login ou Senha invalidos, Tente novamente!');
+    yield put(signFailure());
   }
 }
 
@@ -38,6 +40,7 @@ export function setToken({ payload }) {
 }
 
 export function signOut() {
+  toast.info('Você está deslogado');
   history.push('/');
 }
 

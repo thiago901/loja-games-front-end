@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Form, Input, Scope } from '@rocketseat/unform';
 import * as Yup from 'yup';
+import { toast } from 'react-toastify';
 
 import { updateUserRequest } from '../../store/module/user/actions';
 import api from '../../services/api';
@@ -83,14 +84,21 @@ export default function Profile() {
   }, [profile.client.id]);
 
   async function handleSubmit(data) {
-    setAddressDelivery(data.address);
-    setAddressInvoice(data.addressInvoice);
+    try {
+      setAddressDelivery(data.address);
+      setAddressInvoice(data.addressInvoice);
 
-    await api.put(`/addresses/${data.address.id}`, data.address);
-    await api.put(`/addresses/${data.addressInvoice.id}`, data.addressInvoice);
+      await api.put(`/addresses/${data.address.id}`, data.address);
+      await api.put(
+        `/addresses/${data.addressInvoice.id}`,
+        data.addressInvoice
+      );
 
-    dispatch(updateUserRequest(data));
-    console.tron.warn(data);
+      dispatch(updateUserRequest(data));
+      toast.success('Dados atualizados');
+    } catch (error) {
+      toast.success('Aconteceu um erro, verifique os dados e tente novamente');
+    }
   }
   async function handleCep(cep) {
     const response = await apiCep.get(`/${cep}/json`);
