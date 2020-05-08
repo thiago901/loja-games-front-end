@@ -12,6 +12,8 @@ import Employee from './pages/Employee';
 import EmployeeEdit from './pages/EmployeeEdit';
 import EmployeeCreate from './pages/EmployeeCreate';
 import Cart from './pages/Cart';
+import Payment from './pages/Payment';
+import PaymentFinish from './pages/PaymentFinish';
 import Profile from './pages/Profile';
 
 import { store } from './store';
@@ -29,7 +31,14 @@ export default function Routes() {
       <Route path="/product/:id/detail" exact component={ProductDetail} />
       <Route path="/cart" exact component={Cart} />
 
-      {signed && <Route path="/profile" exact component={Profile} />}
+      {/* Usuario Cliente Logado */}
+
+      <Route path="/profile" exact component={signed ? Profile : SignIn} />
+      <Route path="/payment" exact component={signed ? Payment : SignIn} />
+      <Route
+        path="/payment/finish"
+        component={signed ? PaymentFinish : SignIn}
+      />
 
       {/* Rotas de Funcionario logado e ativo */}
       {signed && user.profile.provider && user.profile.active ? (

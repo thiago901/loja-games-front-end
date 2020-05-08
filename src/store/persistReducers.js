@@ -6,7 +6,7 @@ export default reducers => {
     {
       key: 'compregames.com',
       storage,
-      whitelist: ['auth', 'user'],
+      whitelist: ['auth', 'user', 'cart'],
     },
     reducers
   );

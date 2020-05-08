@@ -10,6 +10,7 @@
     "axios": "^0.19.2",
     "cors": "^2.8.5",
     "formik": "^2.1.4",
+    "google-maps-react": "^2.0.6",
     "history": "^4.10.1",
     "immer": "^6.0.3",
     "polished": "^3.4.4",

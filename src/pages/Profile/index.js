@@ -49,7 +49,7 @@ export default function Profile() {
         .typeError('Apenas números')
         .positive('Formato invalido'),
       complement: Yup.string(),
-      street: Yup.string(),
+      street: Yup.string().required('Rua é obrigatorio'),
       neighborhood: Yup.string(),
       city: Yup.string(),
       state: Yup.string(),
@@ -62,7 +62,7 @@ export default function Profile() {
         .typeError('Apenas números')
         .positive('Formato invalido'),
       complement: Yup.string(),
-      street: Yup.string(),
+      street: Yup.string().required('Rua é obrigatorio'),
       neighborhood: Yup.string(),
       city: Yup.string(),
       state: Yup.string(),
@@ -101,46 +101,54 @@ export default function Profile() {
     }
   }
   async function handleCep(cep) {
-    const response = await apiCep.get(`/${cep}/json`);
-    const {
-      uf: state,
-      localidade: city,
-      bairro: neighborhood,
-      logradouro: street,
-    } = response.data;
-    const { id, number, complement } = addressDelivery;
-    const novo = {
-      id,
-      state,
-      city,
-      neighborhood,
-      street,
-      number,
-      complement,
-    };
+    try {
+      const response = await apiCep.get(`/${cep}/json`);
+      const {
+        uf: state,
+        localidade: city,
+        bairro: neighborhood,
+        logradouro: street,
+      } = response.data;
+      const { id, number, complement } = addressDelivery;
+      const novo = {
+        id,
+        state,
+        city,
+        neighborhood,
+        street,
+        number,
+        complement,
+      };
 
-    setAddressDelivery(novo);
+      setAddressDelivery(novo);
+    } catch (error) {
+      toast.error('CEP inválido');
+    }
   }
   async function handleCepInvoice(cep) {
-    const response = await apiCep.get(`/${cep}/json`);
-    const {
-      uf: state,
-      localidade: city,
-      bairro: neighborhood,
-      logradouro: street,
-    } = response.data;
-    const { id, number, complement } = addressInvoice;
-    const novo = {
-      id,
-      state,
-      city,
-      neighborhood,
-      street,
-      number,
-      complement,
-    };
+    try {
+      const response = await apiCep.get(`/${cep}/json`);
+      const {
+        uf: state,
+        localidade: city,
+        bairro: neighborhood,
+        logradouro: street,
+      } = response.data;
+      const { id, number, complement } = addressInvoice;
+      const novo = {
+        id,
+        state,
+        city,
+        neighborhood,
+        street,
+        number,
+        complement,
+      };
 
-    setAddressInvoice(novo);
+      setAddressInvoice(novo);
+    } catch (error) {
+      toast.error('CEP inválido');
+    }
   }
   return (
     <Site>

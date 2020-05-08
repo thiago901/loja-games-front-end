@@ -21,9 +21,10 @@ export const Container = styled.div`
   footer {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     margin-top: 10px;
 
-    button {
+    .finally {
       border: none;
       border-radius: 4px;
       background: #de4e3a;
@@ -52,7 +53,7 @@ export const ProductTable = styled.table`
     border-bottom: 1px solid #eee;
   }
   img {
-    width: 100px;
+    width: 150px;
   }
   strong {
     color: #333;
@@ -85,8 +86,13 @@ export const ProductTable = styled.table`
 `;
 export const Total = styled.div`
   display: flex;
-  align-items: baseline;
-
+  align-items: flex-end;
+  flex-direction: column;
+  .total {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+  }
   span {
     font-weight: bold;
     color: #999;
@@ -95,5 +101,29 @@ export const Total = styled.div`
   strong {
     font-size: 28px;
     margin-left: 5px;
+  }
+`;
+
+export const Frete = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 30px;
+  label {
+    font-size: 12px;
+    margin-right: 5px;
+  }
+  input {
+    width: 100px;
+    padding: 3px 10px;
+    border-radius: 4px;
+    border: 1px solid #eee;
+  }
+  button {
+    padding: 3px;
+    border: 1px solid #eee;
+    background: #de4e3a;
+    color: #fff;
+    margin-left: 5px;
+    border-radius: 4px;
   }
 `;

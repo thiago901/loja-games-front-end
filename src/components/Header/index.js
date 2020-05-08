@@ -1,16 +1,17 @@
 import React from 'react';
 import { MdShoppingBasket, MdSearch } from 'react-icons/md';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import { Header, InputSearch, ListMenu, MenuHeader, Login } from './style';
 
 import { signOut } from '../../store/module/auth/actions';
 
-function HeaderF({ cartSize }) {
+export default function HeaderF() {
   const dispatch = useDispatch();
   const signed = useSelector(state => state.auth.signed);
   const profile = useSelector(state => state.user.profile);
+  const cartSize = useSelector(state => state.cart.cart.length);
+  // console.tron.warn();
   function handleSignOut() {
     dispatch(signOut());
   }
@@ -34,7 +35,7 @@ function HeaderF({ cartSize }) {
 
       <Link to="/cart">
         <div className="shopping-basket">
-          {signed && <span>{cartSize}</span>}
+          {cartSize > 0 && <span>{cartSize || 0}</span>}
           <MdShoppingBasket color="#fff" size={36} />
         </div>
       </Link>
@@ -65,11 +66,3 @@ function HeaderF({ cartSize }) {
     </Header>
   );
 }
-
-HeaderF.propTypes = {
-  cartSize: PropTypes.number.isRequired,
-};
-
-export default connect(state => ({
-  cartSize: state.cart.length,
-}))(HeaderF);

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Form, Input } from '@rocketseat/unform';
-
+import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 import { Container, ButtonCreate, ButtonSignin } from './style';
 import AnimationCube from '../../components/AnimationCube';
@@ -31,6 +31,7 @@ function SignUp() {
       .typeError('Apenas números')
       .positive('Formato invalido'),
     complement: Yup.string(),
+    street: Yup.string().required('Rua é obrigatorio'),
   });
 
   const [street, setStreet] = useState('');
@@ -63,20 +64,26 @@ function SignUp() {
         client_id: response.data.id,
         delivery: true,
       });
+      toast.success('Usuario cirado com sucesso');
       history.push('/signin');
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.log(`Error: ${error}`);
+      console.log(error.message);
+      toast.error(error.message);
     }
   }
 
   async function handleCep(cep) {
-    const response = await apiCep.get(`/${cep}/json`);
-    const { uf, localidade, bairro, logradouro } = response.data;
-    setCity(localidade);
-    setNeighborhood(bairro);
-    setState(uf);
-    setStreet(logradouro);
+    try {
+      const response = await apiCep.get(`/${cep}/json`);
+      const { uf, localidade, bairro, logradouro } = response.data;
+      setCity(localidade);
+      setNeighborhood(bairro);
+      setState(uf);
+      setStreet(logradouro);
+    } catch (error) {
+      toast.error('CEP inválido');
+    }
   }
   return (
     <Container>
