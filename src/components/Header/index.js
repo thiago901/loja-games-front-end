@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Header, InputSearch, ListMenu, MenuHeader, Login } from './style';
 
-import { signOut } from '../../store/module/auth/actions';
+import { signOutRequest } from '../../store/module/auth/actions';
 
 export default function HeaderF() {
   const dispatch = useDispatch();
@@ -13,7 +13,7 @@ export default function HeaderF() {
   const cartSize = useSelector(state => state.cart.cart.length);
   // console.tron.warn();
   function handleSignOut() {
-    dispatch(signOut());
+    dispatch(signOutRequest());
   }
   return (
     <Header>
@@ -48,12 +48,14 @@ export default function HeaderF() {
               src="https://api.adorable.io/avatars/100/abott@adorable.png"
               alt="avatar"
             />
-            <span>{profile.client.name}</span>
+            <span>{profile.client ? profile.client.name : 'Prestador'}</span>
             <ul>
               <li>
                 <Link to="profile">Perfil</Link>
               </li>
-
+              <li>
+                <Link to="/orders">Pedidos</Link>
+              </li>
               <li>
                 <button type="button" onClick={handleSignOut}>
                   Sair

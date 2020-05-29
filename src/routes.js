@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useStat, useEffect } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
@@ -15,6 +15,8 @@ import Cart from './pages/Cart';
 import Payment from './pages/Payment';
 import PaymentFinish from './pages/PaymentFinish';
 import Profile from './pages/Profile';
+import Orders from './pages/Orders';
+import OrderDatail from './pages/OrderDatail';
 
 import { store } from './store';
 
@@ -33,12 +35,16 @@ export default function Routes() {
 
       {/* Usuario Cliente Logado */}
 
-      <Route path="/profile" exact component={signed ? Profile : SignIn} />
-      <Route path="/payment" exact component={signed ? Payment : SignIn} />
-      <Route
-        path="/payment/finish"
-        component={signed ? PaymentFinish : SignIn}
-      />
+      <Route path="/profile" component={signed ? Profile : SignIn} />
+
+      {signed && (
+        <>
+          <Route path="/payment" exact component={Payment} />
+          <Route path="/payment/finish" exact component={PaymentFinish} />
+          <Route path="/orders" exact component={Orders} />
+          <Route path="/orders/:id/detail" exact component={OrderDatail} />
+        </>
+      )}
 
       {/* Rotas de Funcionario logado e ativo */}
       {signed && user.profile.provider && user.profile.active ? (

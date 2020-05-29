@@ -49,13 +49,19 @@ export default function FormAddAddresses() {
     }
   }
   async function handleSubmit({ address }, { resetForm }) {
-    const addAddress = Object.assign(address, {
-      client_id: client.id,
-      add: true,
-    });
+    try {
+      const addAddress = Object.assign(address, {
+        client_id: client.id,
+        add: true,
+      });
 
-    await api.post('/addresses', addAddress);
-    resetForm();
+      await api.post('/addresses', addAddress);
+
+      resetForm();
+      toast.success('Sucesso');
+    } catch (error) {
+      toast.error('Algo errado aconteceu');
+    }
   }
   return (
     <Container>

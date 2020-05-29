@@ -115,8 +115,12 @@ export const MethodPayment = styled.div`
   display: flex;
 
   margin-top: 20px;
+  #chooseCard:checked ~ div {
+    display: flex;
+  }
 `;
 export const CreditCard = styled.div`
+  position: relative;
   text-align: center;
   width: 100%;
   margin-right: 10px;
@@ -165,6 +169,38 @@ export const CreditCard = styled.div`
     button + button {
       margin-left: 10px;
       background: #6fa1cd;
+    }
+    .divSaveCard {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      margin: 0 0 10px 0;
+      background: #999;
+      border-radius: 4px;
+      color: #fff;
+
+      label {
+        border-radius: 4px;
+        width: 100%;
+        padding: 10px;
+        transition: border 0.2s linear;
+        &:hover {
+          border-left: 5px solid #00b894;
+        }
+      }
+
+      #saveCard:checked ~ label {
+        border-left: 5px solid #00b894;
+        border-right: 5px solid #00b894;
+        font-weight: bold;
+      }
+    }
+    .chooseCard {
+      margin: 10px 0;
+      text-align: left;
+      display: flex;
+      align-items: center;
     }
   }
 `;
@@ -296,8 +332,73 @@ export const AddressClient = styled.div`
     }
   }
 `;
+
 export const ContainerAddAndDeleteAddresses = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+`;
+
+export const ChooseCard = styled.div`
+  display: flex;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.8);
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
+  z-index: 1;
+
+  justify-content: center;
+
+  ul {
+    position: relative;
+    margin: 10px 0;
+    list-style: none;
+    background: #fff;
+    overflow-y: scroll;
+    width: 100%;
+
+    li {
+      display: flex;
+      margin: 0 0 10px 10px;
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+      text-align: left;
+      transition: 0.2s;
+      align-items: center;
+
+      input[type='radio'] {
+        display: initial;
+        width: 20px;
+        height: 20px;
+      }
+      label {
+        margin-left: 10px;
+        dd {
+          padding: 5px 2px;
+        }
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+      &:hover {
+        background: #6fa1cd;
+        color: #fff;
+        cursor: pointer;
+      }
+    }
+    .close {
+      position: absolute;
+      top: 0;
+      right: 0;
+      color: #de4e3a;
+      font-size: 20px;
+      font-weight: bold;
+      z-index: 3;
+    }
+  }
 `;

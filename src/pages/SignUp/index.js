@@ -54,6 +54,7 @@ function SignUp() {
       });
 
       await api.post('/addresses', {
+        name,
         street,
         neighborhood,
         state,

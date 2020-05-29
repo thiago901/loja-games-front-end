@@ -4,12 +4,12 @@ import { Link } from 'react-router-dom';
 import { MdMenu } from 'react-icons/md';
 import { Menu } from './style';
 
-import { signOut } from '../../store/module/auth/actions';
+import { signOutRequest } from '../../store/module/auth/actions';
 
 export default function MainSystem() {
   const dispatch = useDispatch();
   function handleLogoult() {
-    dispatch(signOut());
+    dispatch(signOutRequest());
   }
   return (
     <Menu>
@@ -23,6 +23,9 @@ export default function MainSystem() {
         </Link>
         <Link to="/employee">
           <li>Funcionarios</li>
+        </Link>
+        <Link to="/stockist">
+          <li>Estoquista</li>
         </Link>
         <li>Clientes</li>
         <li>

@@ -22,6 +22,7 @@ function Cart(props) {
   const [frete, setFrete] = useState({ value: 0, text: formatPrice(0) });
   const [total, setTotal] = useState({ value: 0, text: formatPrice(0) });
 
+  const signed = useSelector(state => state.auth.signed);
   const subTotal = useSelector(state => ({
     value: state.cart.cart.reduce((t, product) => {
       return t + product.price * product.amount;
@@ -93,7 +94,7 @@ function Cart(props) {
   return (
     <>
       <Header />
-      <Container>
+      <Container disabled={cart.length <= 0}>
         <ProductTable>
           <thead>
             <tr>
@@ -144,7 +145,7 @@ function Cart(props) {
           </tbody>
         </ProductTable>
         <footer>
-          <Link className="finally" to="/payment">
+          <Link className="finally" to={signed ? '/payment' : 'signin'}>
             Finalizar Pedido
           </Link>
           <Total>

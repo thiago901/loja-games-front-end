@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 
 import './config/reactotronConfig';
-import Routes from './routes';
+import Routes from './ZRotas';
 
 import history from './services/history';
 import { store, persistor } from './store';

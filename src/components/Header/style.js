@@ -147,6 +147,7 @@ export const MenuHeader = styled.ul`
   list-style: none;
   margin-left: 10px;
   position: relative;
+
   button {
     background: none;
     border: 0;
@@ -157,9 +158,11 @@ export const MenuHeader = styled.ul`
     display: flex;
     flex-direction: column;
     align-items: center;
+
     img {
       width: 70px;
       height: 70px;
+      border-radius: 50%;
     }
     span {
       position: relative;
@@ -192,6 +195,7 @@ export const MenuHeader = styled.ul`
     width: 100%;
     z-index: -1;
     transition: opacity 1s;
+    background: rgba(0, 0, 0, 0.6);
     li {
       a {
         text-decoration: none;

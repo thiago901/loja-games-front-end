@@ -13,6 +13,7 @@ import {
   MdToday,
   MdLockOutline,
   MdAdd,
+  MdOpenInNew,
 } from 'react-icons/md';
 
 import { toast } from 'react-toastify';
@@ -25,6 +26,7 @@ import {
   PaymentSlip,
   AddressClient,
   ContainerAddAndDeleteAddresses,
+  ChooseCard,
 } from './styles';
 import FormAddAddress from '../../components/FormAddAddresses';
 import Modal from '../../components/PageModal';
@@ -63,9 +65,8 @@ const years = () => {
 
 function Payment(props) {
   const schema = Yup.object().shape({
-    card_number: Yup.number()
-      .required('Número obrigatorio')
-      .typeError('Número obrigatorio'),
+    id: Yup.string(),
+    card_number: Yup.string().required('Número obrigatorio'),
     card_owner: Yup.string().required('Nome obrigatorio'),
     month: Yup.number()
       .required('Mês obrigatorio')
@@ -89,6 +90,9 @@ function Payment(props) {
   const [addresses, setAddresses] = useState([]);
   const [address, setAddress] = useState({});
   const [saveCard, setSaveCard] = useState(false);
+  const [paymentId, setPaymentId] = useState();
+  const [listCard, setListCard] = useState([]);
+  const [selectedCard, setSelectedCard] = useState({});
 
   const [frete, setFrete] = useState({ value: 0, text: formatPrice(0) });
 
@@ -98,7 +102,6 @@ function Payment(props) {
   async function handleCalcFrete(cep) {
     const origin1 = '05847620';
     const destinationA = cep;
-    console.tron.warn(cep);
 
     const service = new google.maps.DistanceMatrixService();
     service.getDistanceMatrix(
@@ -169,46 +172,51 @@ function Payment(props) {
 
   async function handleSaveCard(data) {
     try {
-      await api.post('/cards', { ...data, client_id: user.profile.client.id });
-      toast.success('Cartão salvo');
+      const response = await api.post('/cards', {
+        ...data,
+        client_id: user.profile.client.id,
+      });
+      return response.data;
     } catch (error) {
       toast.error(error);
     }
   }
   async function handleFinish(data) {
+    let newCardId = null;
     try {
       if (saveCard) {
-        handleSaveCard(data);
+        const response = await handleSaveCard(data);
+        console.tron.warn('salvou cartao');
+        newCardId = response.id;
       }
+      console.tron.warn(newCardId);
 
-      const dataSale = {
-        client_id: user.profile.client.id,
-        total_price: total.value.toFixed(2),
-        status: 'APROVADO',
-        installments: data.installments,
-        payment_id: 1,
-      };
-      const sale = await api.post('/sales', { ...dataSale });
-
-      const dataSaleDatail = cart.map(p => ({
+      const products = cart.map(p => ({
         amount: p.amount,
         unit_price: p.price,
-        freight: frete.value || 20,
         product_id: p.id,
-        sale_id: sale.data.id,
-        address_id: address.id,
       }));
-      await api.post('/saledetails', { products: dataSaleDatail });
-
-      await api.post('/sales/historycard', {
-        sales_id: sale.data.id,
+      const card = {
         name: data.card_owner,
         number_card: data.card_number,
         month: data.month,
         year: data.year,
-      });
+      };
+      const dataSale = {
+        client_id: user.profile.client.id,
+        total_price: total.value.toFixed(2),
+        status: 'AGUARDANDO PAGAMENTO',
+        installments: data.installments,
+        freight: frete.value,
+        payment_id: paymentId,
+        card_id: data.id ? data.id : newCardId,
+        address_id: address.id,
+        products,
+        card,
+      };
 
-      await api.post('/stock/sale', { products: dataSaleDatail });
+      const sale = await api.post('/sales', dataSale);
+
       dispatch(clearCart());
       history.push('/payment/finish', { order: sale.data.id });
       toast.success('Sucesso');
@@ -218,6 +226,52 @@ function Payment(props) {
       } else {
         toast.error('Opss, um erro aconteceu');
       }
+    }
+  }
+
+  async function handlePaymentSlip() {
+    try {
+      const products = cart.map(p => ({
+        amount: p.amount,
+        unit_price: p.price,
+        product_id: p.id,
+      }));
+
+      const dataSale = {
+        client_id: user.profile.client.id,
+        total_price: total.value.toFixed(2),
+        status: 'AGUARDANDO PAGAMENTO',
+        installments: 1,
+        freight: frete.value,
+        payment_id: paymentId,
+        address_id: address.id,
+        products,
+      };
+
+      const sale = await api.post('/sales', dataSale);
+
+      dispatch(clearCart());
+      history.push('/payment/finish', { order: sale.data.id });
+      toast.success('Sucesso');
+    } catch (error) {
+      if (error.response) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error('Opss, um erro aconteceu');
+      }
+    }
+  }
+
+  async function handleListCardClient() {
+    const response = await api.get(`/cards/${user.profile.client.id}`);
+    setListCard(response.data);
+  }
+  function handleCard(id) {
+    if (id) {
+      const selected = listCard.find(c => c.id === id);
+      setSelectedCard(selected);
+    } else {
+      setSelectedCard({});
     }
   }
   return (
@@ -309,12 +363,73 @@ function Payment(props) {
         </OrderResume>
         <MethodPayment>
           <CreditCard className="CreditCard">
-            <input type="radio" name="PaymentMethod" id="CreditCard" />
+            <input
+              type="radio"
+              name="PaymentMethod"
+              id="CreditCard"
+              onChange={() => setPaymentId(1)}
+            />
             <label htmlFor="CreditCard">
               <MdCreditCard size={60} color="#222" />
             </label>
-            <label htmlFor="CreditCard">Cartão de Credito </label>
-            <Form onSubmit={handleFinish} schema={schema}>
+            <label htmlFor="CreditCard">Cartão de Credito</label>
+            <input
+              hidden
+              type="checkbox"
+              name=""
+              id="chooseCard"
+              onChange={handleListCardClient}
+            />
+            <Modal className="chooseCard">
+              <ChooseCard>
+                <ul>
+                  <label htmlFor="chooseCard" className="close">
+                    X
+                  </label>
+                  <li>
+                    <input
+                      type="radio"
+                      name="card"
+                      id={-1}
+                      onClick={() => handleCard(null)}
+                    />
+                    <label htmlFor={-1}>
+                      <dl>
+                        <dd>Nenhum</dd>
+                      </dl>
+                    </label>
+                  </li>
+                  {listCard.map(a => (
+                    <li key={a.id}>
+                      <input
+                        type="radio"
+                        name="card"
+                        id={a.id}
+                        onClick={() => handleCard(a.id)}
+                      />
+                      <label htmlFor={a.id}>
+                        <dl>
+                          <dd>{`Nome: ${a.card_owner}`}</dd>
+                          <dd>{`Número: ${a.card_number}`}</dd>
+                          <dd>{`Mês: ${a.month}`}</dd>
+                          <dd>{`Ano: ${a.year}`}</dd>
+                        </dl>
+                      </label>
+                    </li>
+                  ))}
+                </ul>
+              </ChooseCard>
+            </Modal>
+            <Form
+              onSubmit={handleFinish}
+              schema={schema}
+              initialData={selectedCard}
+            >
+              <label htmlFor="chooseCard" className="chooseCard">
+                Escolher cartão
+                <MdOpenInNew size={20} color="#222" />
+              </label>
+              <Input name="id" hidden type="text" />
               <Input
                 name="card_owner"
                 type="text"
@@ -327,24 +442,34 @@ function Payment(props) {
               />
 
               <div>
-                <Select name="month" options={months} placeholder="Mês" />
-                <Select name="year" options={years()} placeholder="Ano" />
+                <Select
+                  name="month"
+                  options={months}
+                  placeholder="Mês"
+                  value={selectedCard.month}
+                />
+                <Select
+                  name="year"
+                  options={years()}
+                  placeholder="Ano"
+                  value={selectedCard.year}
+                />
               </div>
               <Input name="cvv" type="text" placeholder="CVV" />
+
               <Input
                 name="installments"
                 type="text"
                 placeholder="Parcelar em"
               />
-              <div>
-                <label htmlFor="saveCard">
-                  Salvar dados para compras futuras
-                </label>
+              <div className="divSaveCard">
                 <input
+                  hidden
                   type="checkbox"
                   id="saveCard"
                   onChange={e => setSaveCard(e.target.checked)}
                 />
+                <label htmlFor="saveCard">Selecione para salvar cartão</label>
               </div>
               <div>
                 <button type="submit">Paga com cartão</button>
@@ -352,7 +477,12 @@ function Payment(props) {
             </Form>
           </CreditCard>
           <PaymentSlip className="PaymentSlip">
-            <input type="radio" name="PaymentMethod" id="PaymentSlip" />
+            <input
+              type="radio"
+              name="PaymentMethod"
+              id="PaymentSlip"
+              onChange={() => setPaymentId(2)}
+            />
 
             <label htmlFor="PaymentSlip">
               <MdAttachMoney size={60} color="#222" />
@@ -381,7 +511,9 @@ function Payment(props) {
                   <span>Total</span>
                   <strong>{total.text}</strong>
                 </div>
-                <button type="button">Pagar com boleto</button>
+                <button type="button" onClick={handlePaymentSlip}>
+                  Pagar com boleto
+                </button>
                 <div className="auth">
                   <span>compra segura</span>
                   <MdLockOutline size={20} color="#222" />
