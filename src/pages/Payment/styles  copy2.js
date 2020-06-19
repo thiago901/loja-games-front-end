@@ -13,8 +13,6 @@ export const Container = styled.div`
   padding: 30px;
   border-radius: 4px;
 
-  position: relative;
-
   input:checked ~ form {
     opacity: 1;
     pointer-events: initial;
@@ -135,73 +133,6 @@ export const CreditCard = styled.div`
     opacity: 0.3;
     pointer-events: none;
     transition: opacity 0.5s;
-    display: flex;
-    flex-direction: column;
-
-    input {
-      padding: 10px;
-      margin-bottom: 5px;
-    }
-    div {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-
-      select {
-        padding: 10px;
-        margin-bottom: 5px;
-        width: 100%;
-      }
-      select + select {
-        margin-left: 10px;
-      }
-    }
-
-    button {
-      width: 100%;
-      padding: 10px;
-      border: 0;
-      background: #222;
-      color: #fff;
-      font-size: 16px;
-      border-radius: 4px;
-    }
-    button + button {
-      margin-left: 10px;
-      background: #6fa1cd;
-    }
-    .divSaveCard {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 16px;
-      margin: 0 0 10px 0;
-      background: #999;
-      border-radius: 4px;
-      color: #fff;
-
-      label {
-        border-radius: 4px;
-        width: 100%;
-        padding: 10px;
-        transition: border 0.2s linear;
-        &:hover {
-          border-left: 5px solid #00b894;
-        }
-      }
-
-      #saveCard:checked ~ label {
-        border-left: 5px solid #00b894;
-        border-right: 5px solid #00b894;
-        font-weight: bold;
-      }
-    }
-    .chooseCard {
-      margin: 10px 0;
-      text-align: left;
-      display: flex;
-      align-items: center;
-    }
   }
 `;
 export const PaymentSlip = styled.div`
@@ -337,12 +268,6 @@ export const ContainerAddAndDeleteAddresses = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  button {
-    display: flex;
-    background: none;
-    align-items: center;
-    border: 0;
-  }
 `;
 
 export const ChooseCard = styled.div`

@@ -4,12 +4,14 @@ import { MdOpenInNew } from 'react-icons/md';
 import { format } from 'date-fns';
 import pt from 'date-fns/locale/pt';
 import { Link } from 'react-router-dom';
-import Header from '../../components/Header';
-import api from '../../services/api';
-import { OrderTable, Container } from './style';
-import { formatPrice } from '../../util/format';
 
-export default function Orders() {
+import api from '../../../../services/api';
+import { formatPrice } from '../../../../util/format';
+
+import AccountProfile from '..';
+import { Container, OrderTable } from './styles';
+
+function Orders() {
   const client = useSelector(state => state.user.profile.client);
 
   const [orders, setOrders] = useState([]);
@@ -30,10 +32,8 @@ export default function Orders() {
     }
     load();
   }, [client]);
-
   return (
-    <>
-      <Header />
+    <AccountProfile>
       <Container>
         <OrderTable>
           <thead>
@@ -83,6 +83,8 @@ export default function Orders() {
           </tbody>
         </OrderTable>
       </Container>
-    </>
+    </AccountProfile>
   );
 }
+
+export default Orders;

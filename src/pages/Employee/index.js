@@ -70,8 +70,8 @@ export default function ProductList() {
           <TableProduct>
             <thead>
               <tr>
-                <th>Nome</th>
                 <th>Email</th>
+                <th>Papel </th>
                 <th> </th>
                 <th> </th>
               </tr>
@@ -79,8 +79,9 @@ export default function ProductList() {
             <tbody>
               {users.map(u => (
                 <tr key={u.id}>
-                  <td>{u.name}</td>
                   <td>{u.email}</td>
+                  <td>{u.paperUser.paper.title}</td>
+
                   <td>
                     <Link to={`/employee/${u.id}/edit`}>
                       <MdEdit size={26} color="#22272a" />

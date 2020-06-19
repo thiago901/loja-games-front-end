@@ -54,7 +54,7 @@ export default function HeaderF() {
                 <Link to="profile">Perfil</Link>
               </li>
               <li>
-                <Link to="/orders">Pedidos</Link>
+                <Link to="/profile/orders">Pedidos</Link>
               </li>
               <li>
                 <button type="button" onClick={handleSignOut}>

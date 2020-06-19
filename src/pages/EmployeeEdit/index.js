@@ -34,14 +34,7 @@ export default function EmployeeEdit({ match }) {
   }, [id]);
 
   const handleSubmit = async values => {
-    const dataPaper = {
-      id: values.paperUser.id,
-      paper_id: values.paperId ? values.paperId : values.paperUser.paper_id,
-      user_id: values.id,
-    };
-
     await api.put(`/user/provider/${id}`, values);
-    await api.put(`/paperUser`, dataPaper);
   };
 
   // async function handleSaveUser() {
@@ -64,17 +57,7 @@ export default function EmployeeEdit({ match }) {
 
   const FormEmployee = ({ handleSubmit, initialValues }) => {
     const validations = Yup.object().shape({
-      name: Yup.string().min(5, 'O nome deve ter no minimo 5 caracters'),
       email: Yup.string().email('Email de ser um email valido'),
-      oldPassword: Yup.string().min(6),
-      password: Yup.string()
-        .min(6)
-        .when('oldPassword', (oldPassword, field) =>
-          oldPassword ? field.required() : field
-        ),
-      confirmPassword: Yup.string().when('password', (password, field) =>
-        password ? field.required().oneOf([Yup.ref('password')]) : field
-      ),
       paperId: Yup.number(),
     });
 
@@ -87,19 +70,6 @@ export default function EmployeeEdit({ match }) {
         >
           <FormikForm>
             <div className="group-input">
-              <Field
-                id="name"
-                type="text"
-                placeholder="Seu nome"
-                name="name"
-                autocomplete="off"
-              />
-              <ErrorMessage
-                className="Form-Error"
-                component="span"
-                name="name"
-              />
-
               <Field
                 id="email"
                 type="email"
@@ -128,33 +98,6 @@ export default function EmployeeEdit({ match }) {
                   </option>
                 ))}
               </Field>
-
-              <Field
-                type="password"
-                placeholder="Sua senha"
-                name="oldPassword"
-              />
-              <ErrorMessage
-                className="Form-Error"
-                component="span"
-                name="oldPassword"
-              />
-              <Field type="password" placeholder="Sua senha" name="password" />
-              <ErrorMessage
-                className="Form-Error"
-                component="span"
-                name="password"
-              />
-              <Field
-                type="password"
-                placeholder="Sua senha"
-                name="confirmPassword"
-              />
-              <ErrorMessage
-                className="Form-Error"
-                component="span"
-                name="confirmPassword"
-              />
             </div>
             <button type="submit">Salvar</button>
           </FormikForm>

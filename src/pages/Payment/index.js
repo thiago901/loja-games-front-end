@@ -93,6 +93,7 @@ function Payment(props) {
   const [paymentId, setPaymentId] = useState();
   const [listCard, setListCard] = useState([]);
   const [selectedCard, setSelectedCard] = useState({});
+  const [modalFormAddress, setModalFormAddress] = useState(false);
 
   const [frete, setFrete] = useState({ value: 0, text: formatPrice(0) });
 
@@ -301,10 +302,10 @@ function Payment(props) {
               <MdHome size={20} color="#222" />
               Alterar endereço
             </label>
-            <label htmlFor="AddAddress">
+            <button type="button" onClick={() => setModalFormAddress(true)}>
               <MdAdd size={20} color="#222" />
               Add endereço
-            </label>
+            </button>
           </ContainerAddAndDeleteAddresses>
           <AddressClient className="AddressClient">
             <ul>
@@ -334,10 +335,10 @@ function Payment(props) {
           </AddressClient>
 
           <input hidden type="checkbox" name="" id="AddAddress" />
-          <Modal>
-            <label htmlFor="AddAddress" className="close">
+          <Modal visible={modalFormAddress} setVisible={setModalFormAddress}>
+            {/* <label htmlFor="AddAddress" className="close">
               X
-            </label>
+            </label> */}
             <FormAddAddress />
           </Modal>
         </DataDelivry>

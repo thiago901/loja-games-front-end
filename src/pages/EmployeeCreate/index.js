@@ -15,10 +15,9 @@ export default function EmployeeEdit() {
 
   const handleSubmit = async values => {
     values.provider = true;
+    console.tron.warn(values);
 
-    const response = await api.post('/users/provider', values);
-    const { id } = response.data;
-    await api.post('/paperUser', { paper_id: values.paper, user_id: id });
+    await api.post('/users/provider', values);
   };
   const initialValues = {};
 
@@ -33,9 +32,6 @@ export default function EmployeeEdit() {
 
   const FormEmployee = ({ handleSubmit, initialValues }) => {
     const validations = Yup.object().shape({
-      name: Yup.string()
-        .min(5, 'O nome deve ter no minimo 5 caracters')
-        .required('Informe o nome'),
       email: Yup.string()
         .email()
         .required('Informe o email'),
@@ -54,20 +50,6 @@ export default function EmployeeEdit() {
         >
           <FormikForm>
             <div className="group-input">
-              <Field
-                id="name"
-                type="text"
-                placeholder="Seu nome"
-                name="name"
-                autocomplete="off"
-                // value={values || ''}
-              />
-              <ErrorMessage
-                className="Form-Error"
-                component="span"
-                name="name"
-              />
-
               <Field
                 id="email"
                 type="email"

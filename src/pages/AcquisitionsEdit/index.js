@@ -6,6 +6,7 @@ import Painel from '../../components/Panel';
 import SystemWeb from '../_layouts/systemWeb';
 
 import api from '../../services/api';
+import history from '../../services/history';
 
 import { Content } from './styles';
 
@@ -33,7 +34,7 @@ export default function ProductList({ match }) {
     };
 
     await api.post(`/acquisitions`, data);
-
+    history.push('/acquisitions');
     setAmount(0);
     setPrice(0);
   }

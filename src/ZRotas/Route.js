@@ -29,7 +29,8 @@ export default function RouterWrapper({
   if (
     signed &&
     user.profile.paperUser &&
-    !user.profile.paperUser.title === isAdm
+    isAdm &&
+    user.profile.paperUser.title !== 'Administração'
   ) {
     return <Redirect to="/system" />;
   }

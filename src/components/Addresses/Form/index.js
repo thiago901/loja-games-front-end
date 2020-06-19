@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Form, Input, Scope } from '@rocketseat/unform';
+import { MdArrowBack } from 'react-icons/md';
+import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
 
-import apiCep from '../../services/cepApi';
-import api from '../../services/api';
+import apiCep from '../../../services/cepApi';
+import api from '../../../services/api';
 import { Container } from './styles';
 
-export default function FormAddAddresses() {
+function FormAddress({ idAddress: id, hidden }) {
   const client = useSelector(state => state.user.profile.client);
   const schema = Yup.object().shape({
     address: Yup.object().shape({
@@ -26,10 +28,21 @@ export default function FormAddAddresses() {
     }),
   });
   const [addressDelivery, setAddressDelivery] = useState({});
+  const [initialData, setInitialData] = useState({});
 
+  useEffect(() => {
+    async function load() {
+      if (id) {
+        const response = await api.get(`/addresses/${id}`);
+        setInitialData({ address: response.data });
+      }
+    }
+    load();
+  }, [id]);
   async function handleCep(cep) {
     try {
       const response = await apiCep.get(`/${cep}/json`);
+
       const {
         uf: state,
         localidade: city,
@@ -49,17 +62,20 @@ export default function FormAddAddresses() {
     }
   }
   async function handleSubmit({ address }, { resetForm }) {
-    console.tron.warn('aki');
     try {
       const addAddress = Object.assign(address, {
         client_id: client.id,
         delivery: true,
       });
-      console.tron.warn('aki');
-      // new create
-      const addresses = [addAddress];
 
-      await api.post('/addresses', addresses);
+      if (id) {
+        // update
+        await api.put(`/addresses/${id}`, addAddress);
+      } else {
+        // new create
+        const addresses = [addAddress];
+        await api.post('/addresses', addresses);
+      }
 
       resetForm();
       toast.success('Sucesso');
@@ -69,8 +85,11 @@ export default function FormAddAddresses() {
   }
   return (
     <Container>
-      <Form schema={schema} onSubmit={handleSubmit}>
+      <Form schema={schema} onSubmit={handleSubmit} initialData={initialData}>
         <div>
+          <Link to="/profile/addresses" hidden={hidden}>
+            <MdArrowBack size={20} color="#222" />
+          </Link>
           <h2>Endereço</h2>
         </div>
 
@@ -139,3 +158,5 @@ export default function FormAddAddresses() {
     </Container>
   );
 }
+
+export default FormAddress;

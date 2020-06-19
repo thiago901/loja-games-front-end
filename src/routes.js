@@ -14,7 +14,7 @@ import EmployeeCreate from './pages/EmployeeCreate';
 import Cart from './pages/Cart';
 import Payment from './pages/Payment';
 import PaymentFinish from './pages/PaymentFinish';
-import Profile from './pages/Profile';
+import Profile from './pages/ProfileCadastro';
 import Orders from './pages/Orders';
 import OrderDatail from './pages/OrderDatail';
 

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 import { MdDelete, MdFileUpload } from 'react-icons/md';
 import PropTypes from 'prop-types';
 import SystemWeb from '../_layouts/systemWeb';
@@ -17,6 +18,7 @@ export default function MainSystem({ match }) {
   const [images, setImages] = useState([]);
   const [question, setQuestion] = useState('');
   const [answer, setAnswer] = useState('');
+  // console.tron.warn(faqs);
 
   useEffect(() => {
     async function load() {
@@ -55,15 +57,18 @@ export default function MainSystem({ match }) {
     const newFaqs = faqs.filter((item, i) => {
       return i !== index;
     });
-
     await api.delete(`/faq/${faq.id}`);
-
     setFaqs(newFaqs);
   }
   async function handleSaveFaq(id) {
     const data = {
       product_id: id,
-      faqs,
+      faqs: faqs.filter(f => {
+        if (!f.id) {
+          return f;
+        }
+        return null;
+      }),
     };
 
     await api.post('/relateFaqProduct', data);
@@ -93,6 +98,7 @@ export default function MainSystem({ match }) {
       await api.put(`/products/${idParams}`, data);
       handleSaveFaq(idParams);
       handleRelatedImages(idParams);
+      toast.success('sucesso');
       return;
     }
     const response = await api.post('/products', data);
@@ -100,6 +106,7 @@ export default function MainSystem({ match }) {
 
     handleSaveFaq(id);
     handleRelatedImages(id);
+    toast.success('sucesso');
 
     setTitle('');
     setDescription('');
@@ -108,11 +115,15 @@ export default function MainSystem({ match }) {
     setPlataform('');
     setFaqs([]);
     setImages([]);
+    setPrice('');
   }
   async function handleAddImage(e) {
     const formData = new FormData();
     formData.append('file', e.target.files[0]);
     const result = await api.post('/files', formData);
+    if (images.length === 0) {
+      await api.put(`/files/${result.data.id}`);
+    }
 
     setImages([...images, result.data]);
   }
@@ -124,8 +135,6 @@ export default function MainSystem({ match }) {
     await api.delete(`/files/${file.id}`, {
       headers: {
         'Content-Typer': `multipart/form-data`,
-        Authorization:
-          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzcsImlhdCI6MTU4NDg5MzEzNiwiZXhwIjoxNTg1NDk3OTM2fQ.4OrnUfAfFp4ghSemRQPg_Vs3dznot5BWPflEGYkD0Oc',
       },
     });
 

@@ -11,6 +11,7 @@ export default function MainSystem() {
   function handleLogoult() {
     dispatch(signOutRequest());
   }
+
   return (
     <Menu>
       <MdMenu size={45} color="#fff" />
@@ -27,7 +28,7 @@ export default function MainSystem() {
         <Link to="/stockist">
           <li>Estoquista</li>
         </Link>
-        <li>Clientes</li>
+
         <li>
           <button type="button" onClick={handleLogoult}>
             Sair

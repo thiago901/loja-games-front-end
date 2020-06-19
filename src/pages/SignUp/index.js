@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { Form, Input } from '@rocketseat/unform';
-import { toast } from 'react-toastify';
 import * as Yup from 'yup';
+import { Form, Input, Scope } from '@rocketseat/unform';
+import { toast } from 'react-toastify';
 import { Container, ButtonCreate, ButtonSignin } from './style';
-import AnimationCube from '../../components/AnimationCube';
 
+import AnimationCube from '../../components/AnimationCube';
 import api from '../../services/api';
 import history from '../../services/history';
 import apiCep from '../../services/cepApi';
@@ -25,13 +25,20 @@ function SignUp() {
     password: Yup.string()
       .min(8, 'Mínimo de 8 caracteres')
       .required('Senha é obrigatorio'),
-    cep: Yup.string().required('CEP é obrigatorio'),
-    number: Yup.number('Apenas números')
-      .required('Número é obrigatorio')
-      .typeError('Apenas números')
-      .positive('Formato invalido'),
-    complement: Yup.string(),
-    street: Yup.string().required('Rua é obrigatorio'),
+    addresses: Yup.array().of(
+      Yup.object().shape({
+        cep: Yup.string().required('CEP é obrigatorio'),
+        number: Yup.number('Apenas números')
+          .required('Número é obrigatorio')
+          .typeError('Apenas números')
+          .positive('Formato invalido'),
+        complement: Yup.string(),
+        street: Yup.string().required('Rua é obrigatorio'),
+        neighborhood: Yup.string(),
+        state: Yup.string(),
+        city: Yup.string(),
+      })
+    ),
   });
 
   const [street, setStreet] = useState('');
@@ -41,36 +48,24 @@ function SignUp() {
 
   async function handleSubmit(data) {
     try {
-      const { name, cpf, email, password, cep, number, complement } = data;
-      const { data: userData } = await api.post('/users', {
+      const { name, cpf, email, password, addresses } = data;
+
+      await api.post('/clients', {
+        name,
+        cpf,
         email,
         password,
-        cpf,
-      });
-      const response = await api.post('/clients', {
-        name,
-        cpf,
-        user_id: userData.id,
+        addresses,
       });
 
-      await api.post('/addresses', {
-        name,
-        street,
-        neighborhood,
-        state,
-        city,
-        cep,
-        number,
-        complement,
-        client_id: response.data.id,
-        delivery: true,
-      });
-      toast.success('Usuario cirado com sucesso');
+      toast.success('Usuario criado com sucesso');
       history.push('/signin');
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error.message);
-      toast.error(error.message);
+      if (error.response) {
+        toast.error(error.response.data.error);
+      } else {
+        toast.error('Opss, um erro aconteceu');
+      }
     }
   }
 
@@ -99,53 +94,53 @@ function SignUp() {
         <h1>CompreGames.com</h1>
         <div className="content">
           <Input name="name" type="text" placeholder="Informe o seu nome" />
-
           <Input name="cpf" type="text" placeholder="Informe o seu CPF" />
-          <div className="group">
-            <Input
-              name="cep"
-              type="text"
-              placeholder="CEP"
-              onBlur={e => handleCep(e.target.value)}
-            />
-            <Input name="number" type="text" placeholder="Número" />
-            <Input name="complement" type="text" placeholder="Complemento" />
-          </div>
 
-          <div className="group">
-            <Input
-              name="street"
-              type="text"
-              placeholder="Rua"
-              style={{ width: 600 }}
-              readOnly
-              value={street}
-            />
+          <Scope path="addresses[0]">
+            <div className="group">
+              <Input
+                name="cep"
+                type="text"
+                placeholder="CEP"
+                onBlur={e => handleCep(e.target.value)}
+              />
+              <Input name="number" type="text" placeholder="Número" />
+              <Input name="complement" type="text" placeholder="Complemento" />
+            </div>
+            <div className="group">
+              <Input
+                name="street"
+                type="text"
+                placeholder="Rua"
+                style={{ width: 600 }}
+                readOnly
+                value={street}
+              />
 
-            <Input
-              name="neighborhood"
-              type="text"
-              placeholder="Bairro"
-              readOnly
-              value={neighborhood}
-            />
-            <Input
-              name="state"
-              type="text"
-              placeholder="UF"
-              readOnly
-              style={{ width: 50 }}
-              value={state}
-            />
-            <Input
-              name="city"
-              type="text"
-              placeholder="Cidade"
-              readOnly
-              value={city}
-            />
-          </div>
-
+              <Input
+                name="neighborhood"
+                type="text"
+                placeholder="Bairro"
+                readOnly
+                value={neighborhood}
+              />
+              <Input
+                name="state"
+                type="text"
+                placeholder="UF"
+                readOnly
+                style={{ width: 50 }}
+                value={state}
+              />
+              <Input
+                name="city"
+                type="text"
+                placeholder="Cidade"
+                readOnly
+                value={city}
+              />
+            </div>
+          </Scope>
           <Input name="email" type="email" placeholder="Informe o email" />
           <Input name="password" type="password" placeholder="Digite a senha" />
           <div className="buttons">

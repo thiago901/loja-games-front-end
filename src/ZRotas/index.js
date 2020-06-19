@@ -16,10 +16,15 @@ import EmployeeCreate from '../pages/EmployeeCreate';
 import Cart from '../pages/Cart';
 import Payment from '../pages/Payment';
 import PaymentFinish from '../pages/PaymentFinish';
-import Profile from '../pages/Profile';
-import Orders from '../pages/Orders';
-import OrderDatail from '../pages/OrderDatail';
 import Stockist from '../pages/Stockist';
+
+import Profile from '../pages/Site/AccountProfile/Profile';
+import Orders from '../pages/Site/AccountProfile/Orders';
+import OrderDatail from '../pages/Site/AccountProfile/OrderDatail';
+import Addresses from '../pages/Site/AccountProfile/Addresses/List';
+import AddressesForm from '../pages/Site/AccountProfile/Addresses/Form';
+import Cards from '../pages/Site/AccountProfile/Cards/List';
+import CardsForm from '../pages/Site/AccountProfile/Cards/Form';
 
 export default function Routes() {
   return (
@@ -30,11 +35,33 @@ export default function Routes() {
       <Route path="/product/:id/detail" exact component={ProductDetail} />
       <Route path="/cart" exact component={Cart} />
 
-      <Route path="/profile" component={Profile} />
+      <Route path="/profile" exact isPrivate component={Profile} />
+      <Route path="/profile/orders" exact isPrivate component={Orders} />
+      <Route path="/profile/addresses" exact isPrivate component={Addresses} />
+      <Route
+        path="/profile/addresses/form/:id"
+        exact
+        isPrivate
+        component={AddressesForm}
+      />
+      <Route
+        path="/profile/addresses/form"
+        exact
+        isPrivate
+        component={AddressesForm}
+      />
+      <Route path="/profile/cards" exact isPrivate component={Cards} />
+      <Route
+        path="/profile/cards/form/:id"
+        exact
+        isPrivate
+        component={CardsForm}
+      />
+      <Route path="/profile/cards/form" exact isPrivate component={CardsForm} />
 
       <Route path="/payment" exact component={Payment} isPrivate />
       <Route path="/payment/finish" exact component={PaymentFinish} isPrivate />
-      <Route path="/orders" exact component={Orders} isPrivate />
+
       <Route
         path="/orders/:id/detail"
         exact
@@ -60,26 +87,20 @@ export default function Routes() {
 
       {/* Rotas de Administrador */}
 
-      <Route
-        path="/employee"
-        exact
-        component={Employee}
-        isProvider
-        isAdm="Administração"
-      />
+      <Route path="/employee" exact component={Employee} isProvider isAdm />
       <Route
         path="/employee/create"
         exact
         component={EmployeeCreate}
         isProvider
-        isAdm="Administração"
+        isAdm
       />
       <Route
         path="/employee/:id/edit"
         exact
         component={EmployeeEdit}
         isProvider
-        isAdm="Administração"
+        isAdm
       />
     </Switch>
   );
